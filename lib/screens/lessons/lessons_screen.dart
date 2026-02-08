@@ -10,6 +10,7 @@ import '../../core/constants/app_colors.dart';
 import '../../core/constants/icon_map.dart';
 import '../../models/chapter.dart';
 import '../../models/progress.dart';
+import '../../models/vocabulary_word.dart';
 import '../../providers/data_provider.dart';
 import '../../providers/progress_provider.dart';
 import '../../providers/theme_provider.dart';
@@ -238,7 +239,7 @@ class _LessonsScreenState extends ConsumerState<LessonsScreen> {
 // Today Section
 // ---------------------------------------------------------------------------
 
-class _TodaySection extends StatelessWidget {
+class _TodaySection extends ConsumerWidget {
   final UserProgress progress;
   final List<Chapter> chapters;
   final List<Chapter> inProgress;
@@ -254,7 +255,7 @@ class _TodaySection extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // Compute daily tasks data
     final today = DateTime.now().toIso8601String().split('T').first;
 
@@ -285,7 +286,35 @@ class _TodaySection extends StatelessWidget {
       }
     }
 
-    // 4) Daily progress: count how many tasks are done
+    // 4) Learn new words: find a category with unstudied words
+    final vocabAsync = ref.watch(vocabularyProvider);
+    String? learnCategory;
+    String? learnCategoryLabel;
+    int newWordCount = 0;
+    bool allWordsLearned = false;
+
+    if (vocabAsync case AsyncData<List<VocabularyWord>>(:final value)) {
+      final byCategory = <String, List<VocabularyWord>>{};
+      for (final w in value) {
+        byCategory.putIfAbsent(w.category, () => []).add(w);
+      }
+      int totalUnstudied = 0;
+      for (final entry in byCategory.entries) {
+        final unstudied = entry.value.where((w) {
+          final card = progress.flashcards['vocab_${w.french}'];
+          return card == null || card.repetitions == 0;
+        }).length;
+        totalUnstudied += unstudied;
+        if (unstudied > 0 && learnCategory == null) {
+          learnCategory = entry.key;
+          learnCategoryLabel = _formatCategoryLabel(entry.key);
+          newWordCount = unstudied;
+        }
+      }
+      allWordsLearned = totalUnstudied == 0 && value.isNotEmpty;
+    }
+
+    // 5) Daily progress: count how many tasks are done
     int totalTasks = 0;
     int completedTasks = 0;
 
@@ -293,6 +322,12 @@ class _TodaySection extends StatelessWidget {
     totalTasks++;
     final studiedToday = progress.lastStudyDate == today;
     if (studiedToday) completedTasks++;
+
+    // Learn new words task
+    if (vocabAsync is AsyncData) {
+      totalTasks++;
+      if (allWordsLearned) completedTasks++;
+    }
 
     // Review task
     if (dueCount > 0 || progress.flashcards.isNotEmpty) {
@@ -349,6 +384,22 @@ class _TodaySection extends StatelessWidget {
                   // Task rows
                   Row(
                     children: [
+                      // Learn New Words
+                      Expanded(
+                        child: _TaskMiniCard(
+                          icon: Icons.auto_stories_rounded,
+                          iconColor: AppColors.gold,
+                          title: 'Learn Words',
+                          subtitle: learnCategory != null
+                              ? '$newWordCount new \u2022 $learnCategoryLabel'
+                              : 'All learned!',
+                          isDone: allWordsLearned,
+                          onTap: learnCategory != null
+                              ? () => context.push('/words/$learnCategory')
+                              : null,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
                       // Words Due
                       Expanded(
                         child: _TaskMiniCard(
@@ -364,24 +415,22 @@ class _TodaySection extends StatelessWidget {
                               : null,
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      // Quiz Suggestion
-                      Expanded(
-                        child: _TaskMiniCard(
-                          icon: Icons.quiz_rounded,
-                          iconColor: AppColors.info,
-                          title: 'Take a Quiz',
-                          subtitle: quizChapter != null
-                              ? quizChapter.title
-                              : 'All quizzed!',
-                          isDone: quizChapter == null && chapters.isNotEmpty,
-                          onTap: quizChapter != null
-                              ? () => context.push('/quiz/${quizChapter!.id}')
-                              : null,
-                        ),
-                      ),
                     ],
                   ).animate().fadeIn(delay: 160.ms, duration: 400.ms).slideY(begin: 0.06),
+                  const SizedBox(height: 8),
+                  // Quiz Suggestion
+                  _TaskMiniCard(
+                    icon: Icons.quiz_rounded,
+                    iconColor: AppColors.info,
+                    title: 'Take a Quiz',
+                    subtitle: quizChapter != null
+                        ? quizChapter.title
+                        : 'All quizzed!',
+                    isDone: quizChapter == null && chapters.isNotEmpty,
+                    onTap: quizChapter != null
+                        ? () => context.push('/quiz/${quizChapter!.id}')
+                        : null,
+                  ).animate().fadeIn(delay: 200.ms, duration: 400.ms).slideY(begin: 0.06),
                   const SizedBox(height: 8),
                   // Continue Learning
                   if (nextChapter != null)
@@ -408,6 +457,14 @@ class _TodaySection extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _formatCategoryLabel(String key) {
+    return key
+        .split('_')
+        .map((w) =>
+            w.isNotEmpty ? '${w[0].toUpperCase()}${w.substring(1)}' : '')
+        .join(' ');
   }
 
   String _getStreakMessage(int streak, bool studiedToday) {
