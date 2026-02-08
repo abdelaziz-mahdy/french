@@ -8,6 +8,7 @@ import '../../models/phrase.dart';
 import '../../providers/data_provider.dart';
 import '../../widgets/french_card.dart';
 import '../../widgets/error_view.dart';
+import '../../widgets/speaker_button.dart';
 
 class WordBankScreen extends ConsumerStatefulWidget {
   const WordBankScreen({super.key});
@@ -197,18 +198,35 @@ class _PatternsTab extends ConsumerWidget {
                     spacing: 6,
                     runSpacing: 6,
                     children: p.examples
-                        .map((ex) => Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 3),
-                              decoration: BoxDecoration(
-                                color: context.creamColor,
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Text(
-                                ex,
-                                style: GoogleFonts.inter(
-                                  fontSize: 12,
-                                  color: context.textSecondary,
+                        .map((ex) => Consumer(
+                              builder: (context, ref, _) =>
+                                  GestureDetector(
+                                onTap: () => ref
+                                    .read(ttsServiceProvider)
+                                    .speak(ex),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 3),
+                                  decoration: BoxDecoration(
+                                    color: context.creamColor,
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Icons.volume_up_rounded,
+                                          size: 10,
+                                          color: context.textLight),
+                                      const SizedBox(width: 3),
+                                      Text(
+                                        ex,
+                                        style: GoogleFonts.inter(
+                                          fontSize: 12,
+                                          color: context.textSecondary,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ))
@@ -292,13 +310,20 @@ class _PhrasesTab extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            phrase.french,
-                            style: GoogleFonts.inter(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: context.navyAdaptive,
-                            ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  phrase.french,
+                                  style: GoogleFonts.inter(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: context.navyAdaptive,
+                                  ),
+                                ),
+                              ),
+                              SpeakerButton(text: phrase.french, size: 18),
+                            ],
                           ),
                           const SizedBox(height: 4),
                           Text(
@@ -396,6 +421,8 @@ class _FalseFriendsTab extends ConsumerWidget {
                           ),
                         ),
                       ),
+                      SpeakerButton(text: f.frenchWord, size: 18),
+                      const SizedBox(width: 4),
                       Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 3),

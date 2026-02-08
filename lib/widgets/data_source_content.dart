@@ -6,6 +6,7 @@ import '../core/constants/app_colors.dart';
 import '../models/models.dart';
 import '../providers/data_provider.dart';
 import 'french_card.dart';
+import 'speaker_button.dart';
 
 /// Renders the actual course material for a lesson section based on its dataSource.
 /// Parses the dataSource string (e.g. "pronunciation.json:vowelSounds") and
@@ -355,10 +356,17 @@ class DataSourceContent extends ConsumerWidget {
             ...r.examples
                 .map((e) => Padding(
                       padding: const EdgeInsets.only(bottom: 4),
-                      child: Text('  \u2022  $e',
-                          style: GoogleFonts.inter(
-                              fontSize: 13,
-                              color: context.textPrimary)),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text('  \u2022  $e',
+                                style: GoogleFonts.inter(
+                                    fontSize: 13,
+                                    color: context.textPrimary)),
+                          ),
+                          SpeakerButton(text: e, size: 16),
+                        ],
+                      ),
                     )),
           ],
         ),
@@ -479,11 +487,16 @@ class DataSourceContent extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(v.infinitive,
-                          style: GoogleFonts.inter(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                              color: context.navyAdaptive)),
+                      Row(
+                        children: [
+                          Text(v.infinitive,
+                              style: GoogleFonts.inter(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w700,
+                                  color: context.navyAdaptive)),
+                          SpeakerButton(text: v.infinitive, size: 18),
+                        ],
+                      ),
                       Text(v.meaning,
                           style: GoogleFonts.inter(
                               fontSize: 13,
@@ -623,11 +636,19 @@ class DataSourceContent extends ConsumerWidget {
                   children: [
                     Expanded(
                         flex: 3,
-                        child: Text(v.verb,
-                            style: GoogleFonts.inter(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: context.navyAdaptive))),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Flexible(
+                              child: Text(v.verb,
+                                  style: GoogleFonts.inter(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: context.navyAdaptive)),
+                            ),
+                            SpeakerButton(text: v.verb, size: 16),
+                          ],
+                        )),
                     Expanded(
                         flex: 3,
                         child: Text(v.meaning,
@@ -667,7 +688,8 @@ class DataSourceContent extends ConsumerWidget {
                           fontWeight: FontWeight.w600,
                           color: context.navyAdaptive)),
                 ),
-                const SizedBox(width: 8),
+                SpeakerButton(text: p['french'] as String, size: 18),
+                const SizedBox(width: 4),
                 Expanded(
                   child: Text(p['english'] as String,
                       style: GoogleFonts.inter(
@@ -751,11 +773,18 @@ class DataSourceContent extends ConsumerWidget {
                           color: context.textLight,
                           decoration: TextDecoration.lineThrough)),
                   const SizedBox(height: 4),
-                  Text(e['negative'] as String,
-                      style: GoogleFonts.inter(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: context.navyAdaptive)),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(e['negative'] as String,
+                            style: GoogleFonts.inter(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: context.navyAdaptive)),
+                      ),
+                      SpeakerButton(text: e['negative'] as String, size: 18),
+                    ],
+                  ),
                   Text(e['english'] as String,
                       style: GoogleFonts.inter(
                           fontSize: 12,
@@ -831,11 +860,18 @@ class DataSourceContent extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 8),
-                Text(m['example'] as String,
-                    style: GoogleFonts.inter(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: context.navyAdaptive)),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(m['example'] as String,
+                          style: GoogleFonts.inter(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: context.navyAdaptive)),
+                    ),
+                    SpeakerButton(text: m['example'] as String, size: 18),
+                  ],
+                ),
                 Text(m['english'] as String,
                     style: GoogleFonts.inter(
                         fontSize: 13,
@@ -874,7 +910,8 @@ class DataSourceContent extends ConsumerWidget {
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
                             color: context.navyAdaptive)),
-                    const SizedBox(width: 8),
+                    SpeakerButton(text: w.french, size: 18),
+                    const SizedBox(width: 4),
                     Text('[${w.pronunciation}]',
                         style: GoogleFonts.inter(
                             fontSize: 13,
@@ -888,11 +925,18 @@ class DataSourceContent extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 4),
-                Text(w.example,
-                    style: GoogleFonts.inter(
-                        fontSize: 13,
-                        color: AppColors.red,
-                        fontStyle: FontStyle.italic)),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(w.example,
+                          style: GoogleFonts.inter(
+                              fontSize: 13,
+                              color: AppColors.red,
+                              fontStyle: FontStyle.italic)),
+                    ),
+                    SpeakerButton(text: w.example, size: 18),
+                  ],
+                ),
               ],
             ),
           ),
@@ -1021,12 +1065,20 @@ class DataSourceContent extends ConsumerWidget {
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                             color: AppColors.red)),
+                    SpeakerButton(text: c.contraction, size: 18),
                   ],
                 ),
                 const SizedBox(height: 4),
-                Text(c.example,
-                    style: GoogleFonts.inter(
-                        fontSize: 14, color: context.navyAdaptive)),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(c.example,
+                          style: GoogleFonts.inter(
+                              fontSize: 14, color: context.navyAdaptive)),
+                    ),
+                    SpeakerButton(text: c.example, size: 18),
+                  ],
+                ),
                 Text(c.notes,
                     style: GoogleFonts.inter(
                         fontSize: 12,
@@ -1106,10 +1158,18 @@ class DataSourceContent extends ConsumerWidget {
                     ),
                     Expanded(
                       flex: 3,
-                      child: Text(n.french,
-                          style: GoogleFonts.inter(
-                              fontSize: 14,
-                              color: context.textPrimary)),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                            child: Text(n.french,
+                                style: GoogleFonts.inter(
+                                    fontSize: 14,
+                                    color: context.textPrimary)),
+                          ),
+                          SpeakerButton(text: n.french, size: 14),
+                        ],
+                      ),
                     ),
                     if (filtered.any((n) => n.formula != null))
                       Expanded(
@@ -1166,15 +1226,17 @@ class DataSourceContent extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 8),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                          text: f.frenchWord,
-                          style: GoogleFonts.inter(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              color: context.navyAdaptive)),
+                Row(
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                              text: f.frenchWord,
+                              style: GoogleFonts.inter(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  color: context.navyAdaptive)),
                       TextSpan(
                           text: '  \u2260  ',
                           style: GoogleFonts.inter(
@@ -1187,8 +1249,11 @@ class DataSourceContent extends ConsumerWidget {
                               color: context.textLight,
                               decoration:
                                   TextDecoration.lineThrough)),
-                    ],
-                  ),
+                        ],
+                      ),
+                    ),
+                    SpeakerButton(text: f.frenchWord, size: 18),
+                  ],
                 ),
                 const SizedBox(height: 4),
                 Text('Actually means: ${f.actualMeaning}',
@@ -1262,8 +1327,7 @@ class DataSourceContent extends ConsumerWidget {
                                     fontSize: 14,
                                     color: context.textPrimary)),
                           ),
-                          Icon(Icons.volume_up_rounded,
-                              size: 14, color: context.textLight),
+                          SpeakerButton(text: ex.written, size: 16),
                           const SizedBox(width: 4),
                           Text(ex.pronunciation,
                               style: GoogleFonts.inter(
@@ -1301,11 +1365,18 @@ class DataSourceContent extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(p.french,
-                    style: GoogleFonts.inter(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: context.navyAdaptive)),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(p.french,
+                          style: GoogleFonts.inter(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: context.navyAdaptive)),
+                    ),
+                    SpeakerButton(text: p.french, size: 18),
+                  ],
+                ),
                 const SizedBox(height: 2),
                 Text(p.english,
                     style: GoogleFonts.inter(
@@ -1364,16 +1435,27 @@ class DataSourceContent extends ConsumerWidget {
   }
 
   Widget _exampleChip(String text) {
-    return Builder(builder: (context) {
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-        decoration: BoxDecoration(
-          color: context.creamColor,
-          borderRadius: BorderRadius.circular(6),
+    return Consumer(builder: (context, ref, _) {
+      return GestureDetector(
+        onTap: () => ref.read(ttsServiceProvider).speak(text),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+          decoration: BoxDecoration(
+            color: context.creamColor,
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.volume_up_rounded,
+                  size: 10, color: context.textLight),
+              const SizedBox(width: 3),
+              Text(text,
+                  style: GoogleFonts.inter(
+                      fontSize: 12, color: context.textPrimary)),
+            ],
+          ),
         ),
-        child: Text(text,
-            style: GoogleFonts.inter(
-                fontSize: 12, color: context.textPrimary)),
       );
     });
   }
