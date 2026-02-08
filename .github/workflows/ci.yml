@@ -1,0 +1,87 @@
+# =============================================================================
+# CI Workflow - Continuous Integration
+# =============================================================================
+# Runs on every push and pull request to ensure code quality.
+# Steps:
+#   1. Check out the repository
+#   2. Set up Flutter (stable channel)
+#   3. Cache pub dependencies for faster subsequent runs
+#   4. Install dependencies (flutter pub get)
+#   5. Run static analysis (dart analyze) - must pass with zero errors
+#   6. Run all tests (flutter test) - all 75+ tests must pass
+# =============================================================================
+
+name: CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+
+# Cancel in-progress runs for the same branch/PR to save resources
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze-and-test:
+    name: Analyze & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # ---------- Checkout ----------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ---------- Flutter Setup ----------
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          # Let Flutter pick the latest stable version
+          cache: true
+          # Caches the Flutter SDK itself for faster setup
+
+      # ---------- Dependency Cache ----------
+      # Cache pub dependencies separately for finer control
+      - name: Cache pub dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool/
+          key: pub-cache-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            pub-cache-${{ runner.os }}-
+
+      # ---------- Install Dependencies ----------
+      - name: Install dependencies
+        run: flutter pub get
+
+      # ---------- Ensure web platform exists ----------
+      # Some analysis/test steps may need platform directories
+      - name: Ensure platforms are available
+        run: flutter create --platforms=web .
+
+      # ---------- Static Analysis ----------
+      # Runs dart analyze to catch lint errors, type issues, etc.
+      # This must pass with zero errors before merging.
+      - name: Run static analysis
+        run: dart analyze --fatal-infos
+
+      # ---------- Tests ----------
+      # Runs all unit and widget tests in the test/ directory.
+      # All tests must pass for CI to succeed.
+      - name: Run tests
+        run: flutter test --coverage
+
+      # ---------- Upload Coverage (optional) ----------
+      # Uploads the coverage report as an artifact for later review
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7

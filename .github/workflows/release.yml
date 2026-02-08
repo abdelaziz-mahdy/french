@@ -1,0 +1,172 @@
+# =============================================================================
+# Release Workflow - Build & Publish Release Assets
+# =============================================================================
+# Triggered when a GitHub Release is published.
+# This workflow:
+#   1. Builds the release APK (universal)
+#   2. Builds the web release
+#   3. Attaches the APK to the GitHub Release as a downloadable asset
+#   4. Deploys the web build to GitHub Pages
+#
+# To create a release:
+#   1. Go to GitHub > Releases > Draft a new release
+#   2. Create a tag like v1.0.0
+#   3. Publish the release
+#   4. This workflow runs automatically
+# =============================================================================
+
+name: Release
+
+on:
+  release:
+    types: [published]
+
+# Only one release workflow should run at a time
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+# Required permissions for uploading release assets and deploying to Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  # ===========================================================================
+  # Job 1: Build Release APK and attach to GitHub Release
+  # ===========================================================================
+  release-apk:
+    name: Build & Upload Release APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('android/gradle/wrapper/gradle-wrapper.properties', 'android/**/build.gradle.kts') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool/
+          key: pub-cache-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            pub-cache-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Build universal release APK
+      - name: Build release APK
+        run: flutter build apk --release
+
+      # Rename APK to include version tag for clarity
+      - name: Rename APK with version
+        run: |
+          VERSION="${{ github.event.release.tag_name }}"
+          cp build/app/outputs/flutter-apk/app-release.apk \
+             build/app/outputs/flutter-apk/french-${VERSION}.apk
+
+      # Attach the APK to the GitHub Release page as a downloadable asset
+      # Uses the GitHub CLI (gh) which is pre-installed on GitHub-hosted runners
+      - name: Upload APK to GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ github.event.release.tag_name }}"
+          gh release upload "${VERSION}" \
+            "build/app/outputs/flutter-apk/french-${VERSION}.apk" \
+            --clobber
+
+      # Also upload as a workflow artifact for convenience
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 90
+
+  # ===========================================================================
+  # Job 2: Build Web and deploy to GitHub Pages
+  # ===========================================================================
+  release-web:
+    name: Build & Deploy Web to GitHub Pages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool/
+          key: pub-cache-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            pub-cache-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Ensure web platform files exist
+      - name: Ensure web platform support
+        run: flutter create --platforms=web .
+
+      # Build for GitHub Pages with the correct base-href
+      # The base-href must match the repository name for GitHub Pages to work
+      # Format: /<repository-name>/
+      - name: Build web for GitHub Pages
+        run: |
+          REPO_NAME="${{ github.event.repository.name }}"
+          flutter build web --release --base-href "/${REPO_NAME}/"
+
+      # Deploy the web build to the gh-pages branch
+      # peaceiris/actions-gh-pages handles creating/updating the gh-pages branch
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build/web
+          # Keep the deployment history clean
+          force_orphan: true
+          # Add a custom commit message
+          commit_message: "deploy: release ${{ github.event.release.tag_name }}"
+
+      # Upload web build as an artifact too
+      - name: Upload web build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-web
+          path: build/web/
+          retention-days: 90

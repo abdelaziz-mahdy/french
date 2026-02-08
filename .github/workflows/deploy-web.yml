@@ -1,0 +1,100 @@
+# =============================================================================
+# Deploy Web Workflow - Deploy to GitHub Pages
+# =============================================================================
+# Triggered by:
+#   - Push to main branch (automatic deployment)
+#   - Manual trigger (workflow_dispatch) for on-demand deployment
+#
+# This workflow builds the Flutter web app and deploys it to GitHub Pages
+# via the gh-pages branch. It uses --base-href to ensure assets load
+# correctly under the /<repo-name>/ path on GitHub Pages.
+#
+# Prerequisites:
+#   - Enable GitHub Pages in repo Settings > Pages
+#   - Set source to "Deploy from a branch" > "gh-pages" > "/ (root)"
+# =============================================================================
+
+name: Deploy Web
+
+on:
+  push:
+    branches: [main, master]
+    # Only deploy when source code or assets change, not on CI file changes
+    paths:
+      - 'lib/**'
+      - 'assets/**'
+      - 'web/**'
+      - 'pubspec.yaml'
+      - 'pubspec.lock'
+  workflow_dispatch:
+    # Allow manual deployment from the Actions tab
+
+# Only one deployment should run at a time
+# Skip pending runs if a new one is triggered
+concurrency:
+  group: deploy-web
+  cancel-in-progress: true
+
+# Required permissions for deploying to GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    name: Build & Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool/
+          key: pub-cache-${{ runner.os }}-${{ hashFiles('pubspec.lock') }}
+          restore-keys: |
+            pub-cache-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Ensure web platform files exist (in case web/ directory is gitignored)
+      - name: Ensure web platform support
+        run: flutter create --platforms=web .
+
+      # Build the Flutter web app with the correct base-href for GitHub Pages
+      # --base-href ensures all asset paths are relative to /<repo-name>/
+      # This is critical for GitHub Pages where the app is served from a subdirectory
+      - name: Build web
+        run: |
+          REPO_NAME="${{ github.event.repository.name }}"
+          flutter build web --release --base-href "/${REPO_NAME}/"
+
+      # Deploy the contents of build/web/ to the gh-pages branch
+      # force_orphan: creates a clean single-commit branch (no history bloat)
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build/web
+          force_orphan: true
+          commit_message: "deploy: update web build from ${{ github.sha }}"
+
+      # Also keep the build as a downloadable artifact
+      - name: Upload web build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-deploy
+          path: build/web/
+          retention-days: 14

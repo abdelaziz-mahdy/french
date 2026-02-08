@@ -1,0 +1,51 @@
+# =============================================================================
+# Dependabot Configuration
+# =============================================================================
+# Keeps GitHub Actions and Dart/pub dependencies up to date automatically.
+# Dependabot will create PRs when newer versions of dependencies are available.
+#
+# - GitHub Actions: Checked weekly for action version updates (security patches)
+# - Pub (Dart/Flutter): Checked weekly for package updates
+# =============================================================================
+
+version: 2
+
+updates:
+  # Keep GitHub Actions up to date
+  # This ensures we get security fixes and new features for actions like
+  # checkout, flutter-action, upload-artifact, etc.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    # Group all action updates into a single PR for convenience
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: "ci"
+    labels:
+      - "dependencies"
+      - "ci"
+    # Limit to 5 open PRs at a time to avoid noise
+    open-pull-requests-limit: 5
+
+  # Keep Dart/Flutter pub dependencies up to date
+  - package-ecosystem: "pub"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    commit-message:
+      prefix: "deps"
+    labels:
+      - "dependencies"
+      - "dart"
+    open-pull-requests-limit: 10
+    # Ignore major version bumps that might have breaking changes
+    # These should be handled manually
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
