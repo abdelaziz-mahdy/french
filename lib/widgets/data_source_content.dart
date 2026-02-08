@@ -168,16 +168,16 @@ class DataSourceContent extends ConsumerWidget {
         padding: const EdgeInsets.only(bottom: 10),
         child: FrenchCard(
           margin: EdgeInsets.zero,
-          color: AppColors.navy.withValues(alpha: 0.04),
-          border: Border.all(color: AppColors.navy.withValues(alpha: 0.15)),
+          color: context.navyAdaptive.withValues(alpha: 0.04),
+          border: Border.all(color: context.navyAdaptive.withValues(alpha: 0.15)),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 width: 28,
                 height: 28,
-                decoration: const BoxDecoration(
-                    color: AppColors.navy, shape: BoxShape.circle),
+                decoration: BoxDecoration(
+                    color: context.navyAdaptive, shape: BoxShape.circle),
                 alignment: Alignment.center,
                 child: Text('$num',
                     style: GoogleFonts.inter(
@@ -374,6 +374,7 @@ class DataSourceContent extends ConsumerWidget {
     final isFeminine = key == 'feminine';
     final provider =
         isFeminine ? feminineRulesProvider : masculineRulesProvider;
+    // Note: masculine color will be adapted for dark mode in the _badge helper
     final color = isFeminine ? AppColors.red : AppColors.navy;
 
     return _wrap(ref.watch(provider), (rules) {
@@ -482,7 +483,7 @@ class DataSourceContent extends ConsumerWidget {
                           style: GoogleFonts.inter(
                               fontSize: 15,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.navy)),
+                              color: context.navyAdaptive)),
                       Text(v.meaning,
                           style: GoogleFonts.inter(
                               fontSize: 13,
@@ -519,7 +520,7 @@ class DataSourceContent extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(
                 horizontal: 14, vertical: 10),
             decoration: BoxDecoration(
-              color: AppColors.navy.withValues(alpha: 0.05),
+              color: context.navyAdaptive.withValues(alpha: 0.05),
               borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(16)),
             ),
@@ -528,15 +529,15 @@ class DataSourceContent extends ConsumerWidget {
                 Expanded(
                     flex: 2,
                     child: Text('Subject',
-                        style: _tableHeader())),
+                        style: _tableHeader(context))),
                 Expanded(
                     flex: 2,
                     child:
-                        Text('Ending', style: _tableHeader())),
+                        Text('Ending', style: _tableHeader(context))),
                 Expanded(
                     flex: 3,
                     child:
-                        Text('Sound', style: _tableHeader())),
+                        Text('Sound', style: _tableHeader(context))),
               ],
             ),
           ),
@@ -557,7 +558,7 @@ class DataSourceContent extends ConsumerWidget {
                             style: GoogleFonts.inter(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.navy))),
+                                color: context.navyAdaptive))),
                     Expanded(
                         flex: 2,
                         child: Text(p.ending,
@@ -597,15 +598,15 @@ class DataSourceContent extends ConsumerWidget {
               children: [
                 Expanded(
                     flex: 3,
-                    child: Text('Verb', style: _tableHeader())),
+                    child: Text('Verb', style: _tableHeader(context))),
                 Expanded(
                     flex: 3,
                     child:
-                        Text('Meaning', style: _tableHeader())),
+                        Text('Meaning', style: _tableHeader(context))),
                 Expanded(
                     flex: 3,
                     child: Text('Past Participle',
-                        style: _tableHeader())),
+                        style: _tableHeader(context))),
               ],
             ),
           ),
@@ -626,7 +627,7 @@ class DataSourceContent extends ConsumerWidget {
                             style: GoogleFonts.inter(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.navy))),
+                                color: context.navyAdaptive))),
                     Expanded(
                         flex: 3,
                         child: Text(v.meaning,
@@ -664,7 +665,7 @@ class DataSourceContent extends ConsumerWidget {
                       style: GoogleFonts.inter(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.navy)),
+                          color: context.navyAdaptive)),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
@@ -715,20 +716,20 @@ class DataSourceContent extends ConsumerWidget {
       children: [
         FrenchCard(
           margin: EdgeInsets.zero,
-          color: AppColors.navy.withValues(alpha: 0.04),
+          color: context.navyAdaptive.withValues(alpha: 0.04),
           border:
-              Border.all(color: AppColors.navy.withValues(alpha: 0.15)),
+              Border.all(color: context.navyAdaptive.withValues(alpha: 0.15)),
           child: Row(
             children: [
-              const Icon(Icons.rule_rounded,
-                  color: AppColors.navy, size: 20),
+              Icon(Icons.rule_rounded,
+                  color: context.navyAdaptive, size: 20),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(rule,
                     style: GoogleFonts.inter(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.navy)),
+                        color: context.navyAdaptive)),
               ),
             ],
           ),
@@ -754,7 +755,7 @@ class DataSourceContent extends ConsumerWidget {
                       style: GoogleFonts.inter(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.navy)),
+                          color: context.navyAdaptive)),
                   Text(e['english'] as String,
                       style: GoogleFonts.inter(
                           fontSize: 12,
@@ -834,7 +835,7 @@ class DataSourceContent extends ConsumerWidget {
                     style: GoogleFonts.inter(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.navy)),
+                        color: context.navyAdaptive)),
                 Text(m['english'] as String,
                     style: GoogleFonts.inter(
                         fontSize: 13,
@@ -872,7 +873,7 @@ class DataSourceContent extends ConsumerWidget {
                         style: GoogleFonts.inter(
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.navy)),
+                            color: context.navyAdaptive)),
                     const SizedBox(width: 8),
                     Text('[${w.pronunciation}]',
                         style: GoogleFonts.inter(
@@ -910,22 +911,22 @@ class DataSourceContent extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(
                 horizontal: 14, vertical: 10),
             decoration: BoxDecoration(
-              color: AppColors.navy.withValues(alpha: 0.05),
+              color: context.navyAdaptive.withValues(alpha: 0.05),
               borderRadius:
                   const BorderRadius.vertical(top: Radius.circular(16)),
             ),
             child: Row(
               children: [
-                Expanded(flex: 2, child: Text('Type', style: _tableHeader())),
+                Expanded(flex: 2, child: Text('Type', style: _tableHeader(context))),
                 Expanded(
                     flex: 3,
-                    child: Text('Masculine', style: _tableHeader())),
+                    child: Text('Masculine', style: _tableHeader(context))),
                 Expanded(
                     flex: 3,
-                    child: Text('Feminine', style: _tableHeader())),
+                    child: Text('Feminine', style: _tableHeader(context))),
                 Expanded(
                     flex: 3,
-                    child: Text('Plural', style: _tableHeader())),
+                    child: Text('Plural', style: _tableHeader(context))),
               ],
             ),
           ),
@@ -953,7 +954,7 @@ class DataSourceContent extends ConsumerWidget {
                             child: Text(a.masculine,
                                 style: GoogleFonts.inter(
                                     fontSize: 13,
-                                    color: AppColors.navy))),
+                                    color: context.navyAdaptive))),
                         Expanded(
                             flex: 3,
                             child: Text(a.feminine,
@@ -1025,7 +1026,7 @@ class DataSourceContent extends ConsumerWidget {
                 const SizedBox(height: 4),
                 Text(c.example,
                     style: GoogleFonts.inter(
-                        fontSize: 14, color: AppColors.navy)),
+                        fontSize: 14, color: context.navyAdaptive)),
                 Text(c.notes,
                     style: GoogleFonts.inter(
                         fontSize: 12,
@@ -1059,26 +1060,26 @@ class DataSourceContent extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(
                 horizontal: 14, vertical: 10),
             decoration: BoxDecoration(
-              color: AppColors.navy.withValues(alpha: 0.05),
+              color: context.navyAdaptive.withValues(alpha: 0.05),
               borderRadius:
                   const BorderRadius.vertical(top: Radius.circular(16)),
             ),
             child: Row(
               children: [
-                const SizedBox(
+                SizedBox(
                     width: 40,
                     child: Text('#',
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            color: AppColors.navy))),
+                            color: context.navyAdaptive))),
                 Expanded(
                     flex: 3,
-                    child: Text('French', style: _tableHeader())),
+                    child: Text('French', style: _tableHeader(context))),
                 if (filtered.any((n) => n.formula != null))
                   Expanded(
                       flex: 3,
                       child:
-                          Text('Formula', style: _tableHeader())),
+                          Text('Formula', style: _tableHeader(context))),
               ],
             ),
           ),
@@ -1101,7 +1102,7 @@ class DataSourceContent extends ConsumerWidget {
                           style: GoogleFonts.inter(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.navy)),
+                              color: context.navyAdaptive)),
                     ),
                     Expanded(
                       flex: 3,
@@ -1173,7 +1174,7 @@ class DataSourceContent extends ConsumerWidget {
                           style: GoogleFonts.inter(
                               fontSize: 18,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.navy)),
+                              color: context.navyAdaptive)),
                       TextSpan(
                           text: '  \u2260  ',
                           style: GoogleFonts.inter(
@@ -1249,7 +1250,7 @@ class DataSourceContent extends ConsumerWidget {
                     style: GoogleFonts.inter(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.navy)),
+                        color: context.navyAdaptive)),
                 const SizedBox(height: 8),
                 ...r.examples.map((ex) => Padding(
                       padding: const EdgeInsets.only(bottom: 6),
@@ -1304,7 +1305,7 @@ class DataSourceContent extends ConsumerWidget {
                     style: GoogleFonts.inter(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.navy)),
+                        color: context.navyAdaptive)),
                 const SizedBox(height: 2),
                 Text(p.english,
                     style: GoogleFonts.inter(
@@ -1339,19 +1340,27 @@ class DataSourceContent extends ConsumerWidget {
   //  SHARED HELPERS
   // ═══════════════════════════════════════════════════════════════
   Widget _badge(String text, Color color) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: color.withValues(alpha: 0.3)),
-      ),
-      child: Text(text,
-          style: GoogleFonts.inter(
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-              color: color)),
-    );
+    return Builder(builder: (context) {
+      // In dark mode, dark colors like navy are invisible on dark backgrounds.
+      // Lighten them so text and borders remain readable.
+      final isDark = context.isDark;
+      final displayColor = isDark && color == AppColors.navy
+          ? context.navyAdaptive
+          : color;
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        decoration: BoxDecoration(
+          color: displayColor.withValues(alpha: isDark ? 0.2 : 0.12),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: displayColor.withValues(alpha: isDark ? 0.4 : 0.3)),
+        ),
+        child: Text(text,
+            style: GoogleFonts.inter(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: displayColor)),
+      );
+    });
   }
 
   Widget _exampleChip(String text) {
@@ -1382,10 +1391,10 @@ class DataSourceContent extends ConsumerWidget {
     });
   }
 
-  TextStyle _tableHeader() {
+  TextStyle _tableHeader(BuildContext context) {
     return GoogleFonts.inter(
         fontSize: 12,
         fontWeight: FontWeight.w700,
-        color: AppColors.navy);
+        color: context.navyAdaptive);
   }
 }

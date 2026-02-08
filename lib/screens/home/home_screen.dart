@@ -249,7 +249,7 @@ class _ChapterTile extends StatelessWidget {
             child: Icon(
               chapterIconFromString(chapter.icon),
               size: 22,
-              color: pct >= 100 ? AppColors.success : AppColors.navy,
+              color: pct >= 100 ? AppColors.success : context.navyAdaptive,
             ),
           ),
           const SizedBox(width: 16),
