@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../core/constants/adaptive_colors.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/icon_map.dart';
 import '../../providers/data_provider.dart';
@@ -73,7 +74,7 @@ class ProfileScreen extends ConsumerWidget {
                   style: GoogleFonts.playfairDisplay(
                     fontSize: 24,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: context.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -81,7 +82,7 @@ class ProfileScreen extends ConsumerWidget {
                   'Learning in progress',
                   style: GoogleFonts.inter(
                     fontSize: 14,
-                    color: AppColors.textSecondary,
+                    color: context.textSecondary,
                   ),
                 ),
               ],
@@ -104,7 +105,7 @@ class ProfileScreen extends ConsumerWidget {
                       style: GoogleFonts.inter(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
+                        color: context.textPrimary,
                       ),
                     ),
                   ),
@@ -118,7 +119,7 @@ class ProfileScreen extends ConsumerWidget {
                           style: GoogleFonts.inter(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.textPrimary,
+                            color: context.textPrimary,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -126,7 +127,7 @@ class ProfileScreen extends ConsumerWidget {
                           '$completedChapters of $totalChapters chapters complete',
                           style: GoogleFonts.inter(
                             fontSize: 13,
-                            color: AppColors.textSecondary,
+                            color: context.textSecondary,
                           ),
                         ),
                       ],
@@ -193,7 +194,7 @@ class ProfileScreen extends ConsumerWidget {
               style: GoogleFonts.inter(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary,
+                color: context.textPrimary,
               ),
             ),
             const SizedBox(height: 12),
@@ -232,7 +233,7 @@ class ProfileScreen extends ConsumerWidget {
                                   style: GoogleFonts.inter(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.textPrimary,
+                                    color: context.textPrimary,
                                   ),
                                 ),
                                 const SizedBox(height: 6),
@@ -243,7 +244,7 @@ class ProfileScreen extends ConsumerWidget {
                                     value: pct / 100,
                                     minHeight: 4,
                                     backgroundColor:
-                                        AppColors.progressBg,
+                                        context.progressBgColor,
                                     valueColor:
                                         AlwaysStoppedAnimation<Color>(
                                       pct >= 100
@@ -275,7 +276,7 @@ class ProfileScreen extends ConsumerWidget {
                                   'Quiz: $best%',
                                   style: GoogleFonts.inter(
                                     fontSize: 11,
-                                    color: AppColors.textLight,
+                                    color: context.textLight,
                                   ),
                                 ),
                             ],

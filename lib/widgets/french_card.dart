@@ -21,14 +21,20 @@ class FrenchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final defaultColor = color ?? (isDark ? AppColors.darkCard : AppColors.surface);
+    final shadowColor = isDark
+        ? Colors.black.withValues(alpha: 0.3)
+        : AppColors.cardShadow;
+
     final cardDecoration = BoxDecoration(
-      color: color ?? AppColors.surface,
+      color: defaultColor,
       borderRadius: BorderRadius.circular(16),
       border: border,
       boxShadow: [
         BoxShadow(
-          color: AppColors.cardShadow,
-          blurRadius: 12,
+          color: shadowColor,
+          blurRadius: isDark ? 8 : 12,
           offset: const Offset(0, 4),
         ),
       ],
@@ -38,7 +44,7 @@ class FrenchCard extends StatelessWidget {
       return Padding(
         padding: margin ?? const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
         child: Material(
-          color: color ?? AppColors.surface,
+          color: defaultColor,
           borderRadius: BorderRadius.circular(16),
           elevation: 0,
           child: Ink(

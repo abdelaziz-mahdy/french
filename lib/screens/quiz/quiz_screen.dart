@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../core/constants/adaptive_colors.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/icon_map.dart';
 import '../../providers/data_provider.dart';
@@ -33,7 +34,7 @@ class QuizScreen extends ConsumerWidget {
                       style: GoogleFonts.playfairDisplay(
                         fontSize: 30,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
+                        color: context.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -41,7 +42,7 @@ class QuizScreen extends ConsumerWidget {
                       'Test your knowledge',
                       style: GoogleFonts.inter(
                         fontSize: 15,
-                        color: AppColors.textSecondary,
+                        color: context.textSecondary,
                       ),
                     ),
                   ],
@@ -89,7 +90,7 @@ class QuizScreen extends ConsumerWidget {
                                   style: GoogleFonts.inter(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.textPrimary,
+                                    color: context.textPrimary,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
@@ -98,7 +99,7 @@ class QuizScreen extends ConsumerWidget {
                                     'Best: $best% \u2022 $attempts attempt${attempts == 1 ? '' : 's'}',
                                     style: GoogleFonts.inter(
                                       fontSize: 12,
-                                      color: AppColors.textSecondary,
+                                      color: context.textSecondary,
                                     ),
                                   )
                                 else
@@ -106,7 +107,7 @@ class QuizScreen extends ConsumerWidget {
                                     'Not attempted yet',
                                     style: GoogleFonts.inter(
                                       fontSize: 12,
-                                      color: AppColors.textLight,
+                                      color: context.textLight,
                                     ),
                                   ),
                               ],

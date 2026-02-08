@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../core/constants/adaptive_colors.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/icon_map.dart';
 import '../../providers/data_provider.dart';
@@ -33,7 +34,7 @@ class LessonsScreen extends ConsumerWidget {
                       style: GoogleFonts.playfairDisplay(
                         fontSize: 30,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
+                        color: context.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -41,7 +42,7 @@ class LessonsScreen extends ConsumerWidget {
                       'Master French step by step',
                       style: GoogleFonts.inter(
                         fontSize: 15,
-                        color: AppColors.textSecondary,
+                        color: context.textSecondary,
                       ),
                     ),
                   ],
@@ -100,7 +101,7 @@ class LessonsScreen extends ConsumerWidget {
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600,
                                               color:
-                                                  AppColors.textPrimary,
+                                                  context.textPrimary,
                                             ),
                                           ),
                                         ),
@@ -119,7 +120,7 @@ class LessonsScreen extends ConsumerWidget {
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.inter(
                                         fontSize: 13,
-                                        color: AppColors.textSecondary,
+                                        color: context.textSecondary,
                                         height: 1.4,
                                       ),
                                     ),
@@ -134,7 +135,7 @@ class LessonsScreen extends ConsumerWidget {
                             child: LinearProgressIndicator(
                               value: pct / 100,
                               minHeight: 6,
-                              backgroundColor: AppColors.progressBg,
+                              backgroundColor: context.progressBgColor,
                               valueColor: AlwaysStoppedAnimation<Color>(
                                 isCompleted
                                     ? AppColors.success
@@ -151,7 +152,7 @@ class LessonsScreen extends ConsumerWidget {
                                 '${chapter.sections.length} sections',
                                 style: GoogleFonts.inter(
                                   fontSize: 12,
-                                  color: AppColors.textLight,
+                                  color: context.textLight,
                                 ),
                               ),
                               Text(
@@ -161,7 +162,7 @@ class LessonsScreen extends ConsumerWidget {
                                   fontWeight: FontWeight.w600,
                                   color: isCompleted
                                       ? AppColors.success
-                                      : AppColors.textSecondary,
+                                      : context.textSecondary,
                                 ),
                               ),
                             ],

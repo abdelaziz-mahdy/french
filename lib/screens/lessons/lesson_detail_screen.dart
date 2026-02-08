@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../core/constants/adaptive_colors.dart';
 import '../../core/constants/app_colors.dart';
 import '../../models/chapter.dart';
 import '../../providers/data_provider.dart';
@@ -51,7 +52,7 @@ class _LessonDetailScreenState extends ConsumerState<LessonDetailScreen> {
                       IconButton(
                         onPressed: () => context.pop(),
                         icon: const Icon(Icons.arrow_back_rounded),
-                        color: AppColors.textPrimary,
+                        color: context.textPrimary,
                         tooltip: 'Back',
                       ),
                       Expanded(
@@ -62,7 +63,7 @@ class _LessonDetailScreenState extends ConsumerState<LessonDetailScreen> {
                               style: GoogleFonts.inter(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.textPrimary,
+                                color: context.textPrimary,
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -70,7 +71,7 @@ class _LessonDetailScreenState extends ConsumerState<LessonDetailScreen> {
                               '${_currentSection + 1} of ${sections.length}',
                               style: GoogleFonts.inter(
                                 fontSize: 12,
-                                color: AppColors.textLight,
+                                color: context.textLight,
                               ),
                             ),
                           ],
@@ -90,7 +91,7 @@ class _LessonDetailScreenState extends ConsumerState<LessonDetailScreen> {
                           ? (_currentSection + 1) / sections.length
                           : 0,
                       minHeight: 4,
-                      backgroundColor: AppColors.progressBg,
+                      backgroundColor: context.progressBgColor,
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         AppColors.red,
                       ),
@@ -107,14 +108,19 @@ class _LessonDetailScreenState extends ConsumerState<LessonDetailScreen> {
                       : const Center(child: Text('No content')),
                 ),
                 // Bottom nav
-                Container(
+                Builder(builder: (context) {
+                  final isDark =
+                      Theme.of(context).brightness == Brightness.dark;
+                  return Container(
                   padding:
                       const EdgeInsets.fromLTRB(24, 12, 24, 16),
                   decoration: BoxDecoration(
-                    color: AppColors.white,
+                    color: isDark ? AppColors.darkSurface : AppColors.white,
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.navy.withValues(alpha: 0.05),
+                        color: isDark
+                            ? Colors.black.withValues(alpha: 0.3)
+                            : AppColors.navy.withValues(alpha: 0.05),
                         blurRadius: 10,
                         offset: const Offset(0, -2),
                       ),
@@ -148,7 +154,8 @@ class _LessonDetailScreenState extends ConsumerState<LessonDetailScreen> {
                       ),
                     ],
                   ),
-                ),
+                );
+                }),
               ],
             ),
           ),
@@ -203,7 +210,7 @@ class _LessonDetailScreenState extends ConsumerState<LessonDetailScreen> {
                 style: GoogleFonts.playfairDisplay(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
+                  color: context.textPrimary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -212,7 +219,7 @@ class _LessonDetailScreenState extends ConsumerState<LessonDetailScreen> {
                 textAlign: TextAlign.center,
                 style: GoogleFonts.inter(
                   fontSize: 14,
-                  color: AppColors.textSecondary,
+                  color: context.textSecondary,
                 ),
               ),
               const SizedBox(height: 8),
@@ -273,7 +280,7 @@ class _SectionContent extends StatelessWidget {
           style: GoogleFonts.playfairDisplay(
             fontSize: 24,
             fontWeight: FontWeight.w700,
-            color: AppColors.textPrimary,
+            color: context.textPrimary,
           ),
         ).animate().fadeIn(duration: 300.ms),
         const SizedBox(height: 8),
@@ -282,7 +289,7 @@ class _SectionContent extends StatelessWidget {
             section.content,
             style: GoogleFonts.inter(
               fontSize: 15,
-              color: AppColors.textSecondary,
+              color: context.textSecondary,
               height: 1.6,
             ),
           ).animate().fadeIn(delay: 100.ms, duration: 300.ms),
@@ -357,7 +364,7 @@ class _TipBlock extends StatelessWidget {
               block.body!,
               style: GoogleFonts.inter(
                 fontSize: 14,
-                color: AppColors.textPrimary,
+                color: context.textPrimary,
                 height: 1.5,
               ),
             ),
@@ -376,7 +383,7 @@ class _TipBlock extends StatelessWidget {
                         bp,
                         style: GoogleFonts.inter(
                           fontSize: 13,
-                          color: AppColors.textPrimary,
+                          color: context.textPrimary,
                           height: 1.4,
                         ),
                       ),
@@ -427,7 +434,7 @@ class _RuleBlock extends StatelessWidget {
               block.body!,
               style: GoogleFonts.inter(
                 fontSize: 14,
-                color: AppColors.textPrimary,
+                color: context.textPrimary,
                 height: 1.5,
               ),
             ),
@@ -461,7 +468,7 @@ class _TableBlock extends StatelessWidget {
                 style: GoogleFonts.inter(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
+                  color: context.textPrimary,
                 ),
               ),
             ),
@@ -479,7 +486,7 @@ class _TableBlock extends StatelessWidget {
               ),
               dataTextStyle: GoogleFonts.inter(
                 fontSize: 13,
-                color: AppColors.textPrimary,
+                color: context.textPrimary,
               ),
               columns: headers
                   .map((h) => DataColumn(label: Text(h)))
@@ -508,7 +515,7 @@ class _ExampleBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     return FrenchCard(
       margin: EdgeInsets.zero,
-      color: AppColors.cream,
+      color: context.creamColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -528,7 +535,7 @@ class _ExampleBlock extends StatelessWidget {
               block.body!,
               style: GoogleFonts.inter(
                 fontSize: 14,
-                color: AppColors.textPrimary,
+                color: context.textPrimary,
                 height: 1.5,
               ),
             ),
@@ -540,7 +547,7 @@ class _ExampleBlock extends StatelessWidget {
                   '  \u2022  $bp',
                   style: GoogleFonts.inter(
                     fontSize: 13,
-                    color: AppColors.textPrimary,
+                    color: context.textPrimary,
                     height: 1.4,
                   ),
                 ),
@@ -567,7 +574,7 @@ class _TextBlock extends StatelessWidget {
             style: GoogleFonts.inter(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
+              color: context.textPrimary,
             ),
           ),
           const SizedBox(height: 6),
@@ -577,7 +584,7 @@ class _TextBlock extends StatelessWidget {
             block.body!,
             style: GoogleFonts.inter(
               fontSize: 14,
-              color: AppColors.textSecondary,
+              color: context.textSecondary,
               height: 1.6,
             ),
           ),

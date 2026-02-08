@@ -51,4 +51,15 @@ class AppColors {
   // Tab / nav
   static const Color navActive = Color(0xFFE63946);
   static const Color navInactive = Color(0xFF6B7B8D);
+
+  // Dark mode surfaces
+  static const Color darkBg = Color(0xFF121212);
+  static const Color darkSurface = Color(0xFF1E1E1E);
+  static const Color darkCard = Color(0xFF2C2C2C);
+  static const Color darkDivider = Color(0xFF3A3A3A);
+
+  // Dark mode text
+  static const Color darkTextPrimary = Color(0xFFE8E8E8);
+  static const Color darkTextSecondary = Color(0xFFB0B0B0);
+  static const Color darkTextLight = Color(0xFF808080);
 }

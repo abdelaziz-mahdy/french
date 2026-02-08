@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import '../core/constants/adaptive_colors.dart';
 import '../core/constants/app_colors.dart';
 
 class ProgressRing extends StatelessWidget {
@@ -34,7 +35,7 @@ class ProgressRing extends StatelessWidget {
               progress: progress.clamp(0, 1),
               strokeWidth: strokeWidth,
               color: color ?? AppColors.success,
-              backgroundColor: backgroundColor ?? AppColors.progressBg,
+              backgroundColor: backgroundColor ?? context.progressBgColor,
             ),
           ),
           ?child,

@@ -39,9 +39,7 @@ class StatBadge extends StatelessWidget {
           const SizedBox(height: 2),
           Text(
             label,
-            style: textTheme.labelSmall?.copyWith(
-              color: AppColors.textSecondary,
-            ),
+            style: textTheme.labelSmall,
           ),
         ],
       ),

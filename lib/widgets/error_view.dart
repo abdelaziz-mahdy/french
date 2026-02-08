@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../core/constants/adaptive_colors.dart';
 import '../core/constants/app_colors.dart';
 
 /// A user-friendly error view with a retry button.
@@ -41,7 +42,7 @@ class ErrorView extends StatelessWidget {
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
                 fontSize: 15,
-                color: AppColors.textSecondary,
+                color: context.textSecondary,
                 height: 1.5,
               ),
             ),

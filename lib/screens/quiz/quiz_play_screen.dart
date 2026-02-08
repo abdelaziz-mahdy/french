@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../core/constants/adaptive_colors.dart';
 import '../../core/constants/app_colors.dart';
 import '../../providers/data_provider.dart';
 import '../../providers/progress_provider.dart';
@@ -34,15 +35,15 @@ class _QuizPlayScreenState extends ConsumerState<QuizPlayScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.quiz_rounded,
-                    size: 64, color: AppColors.textLight),
+                Icon(Icons.quiz_rounded,
+                    size: 64, color: context.textLight),
                 const SizedBox(height: 16),
                 Text(
                   'No quiz available yet',
                   style: GoogleFonts.inter(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textSecondary,
+                    color: context.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -114,7 +115,7 @@ class _QuizPlayScreenState extends ConsumerState<QuizPlayScreen> {
                       }
                     },
                     icon: const Icon(Icons.close_rounded),
-                    color: AppColors.textPrimary,
+                    color: context.textPrimary,
                   ),
                   Expanded(
                     child: ClipRRect(
@@ -122,7 +123,7 @@ class _QuizPlayScreenState extends ConsumerState<QuizPlayScreen> {
                       child: LinearProgressIndicator(
                         value: (_currentIndex + 1) / questions.length,
                         minHeight: 6,
-                        backgroundColor: AppColors.progressBg,
+                        backgroundColor: context.progressBgColor,
                         valueColor:
                             const AlwaysStoppedAnimation<Color>(AppColors.red),
                       ),
@@ -134,7 +135,7 @@ class _QuizPlayScreenState extends ConsumerState<QuizPlayScreen> {
                     style: GoogleFonts.inter(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.textSecondary,
+                      color: context.textSecondary,
                     ),
                   ),
                 ],
@@ -150,7 +151,7 @@ class _QuizPlayScreenState extends ConsumerState<QuizPlayScreen> {
                     style: GoogleFonts.inter(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary,
+                      color: context.textPrimary,
                       height: 1.4,
                     ),
                   ).animate().fadeIn(duration: 300.ms),
@@ -181,9 +182,9 @@ class _QuizPlayScreenState extends ConsumerState<QuizPlayScreen> {
                     final option = entry.value;
                     final isSelected = _selectedAnswer == option;
                     final isCorrect = option == question.correctAnswer;
-                    Color borderColor = AppColors.surfaceDark;
-                    Color bgColor = AppColors.surface;
-                    Color textColor = AppColors.textPrimary;
+                    Color borderColor = context.dividerColor;
+                    Color bgColor = context.surfaceColor;
+                    Color textColor = context.textPrimary;
 
                     if (_answered) {
                       if (isCorrect) {
@@ -231,7 +232,7 @@ class _QuizPlayScreenState extends ConsumerState<QuizPlayScreen> {
                                 decoration: BoxDecoration(
                                   color: isSelected || (_answered && isCorrect)
                                       ? borderColor
-                                      : AppColors.surfaceDark,
+                                      : context.dividerColor,
                                   shape: BoxShape.circle,
                                 ),
                                 child: Center(
@@ -252,7 +253,7 @@ class _QuizPlayScreenState extends ConsumerState<QuizPlayScreen> {
                                             fontWeight: FontWeight.w600,
                                             color: isSelected
                                                 ? AppColors.white
-                                                : AppColors.textSecondary,
+                                                : context.textSecondary,
                                           ),
                                         ),
                                 ),
@@ -285,7 +286,7 @@ class _QuizPlayScreenState extends ConsumerState<QuizPlayScreen> {
                     const SizedBox(height: 8),
                     FrenchCard(
                       margin: EdgeInsets.zero,
-                      color: AppColors.cream,
+                      color: context.creamColor,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -297,7 +298,7 @@ class _QuizPlayScreenState extends ConsumerState<QuizPlayScreen> {
                               question.explanation!,
                               style: GoogleFonts.inter(
                                 fontSize: 13,
-                                color: AppColors.textPrimary,
+                                color: context.textPrimary,
                                 height: 1.5,
                               ),
                             ),
@@ -310,13 +311,18 @@ class _QuizPlayScreenState extends ConsumerState<QuizPlayScreen> {
               ),
             ),
             // Bottom button
-            Container(
+            Builder(builder: (context) {
+              final isDark =
+                  Theme.of(context).brightness == Brightness.dark;
+              return Container(
               padding: const EdgeInsets.fromLTRB(24, 12, 24, 16),
               decoration: BoxDecoration(
-                color: AppColors.white,
+                color: isDark ? AppColors.darkSurface : AppColors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.navy.withValues(alpha: 0.05),
+                    color: isDark
+                        ? Colors.black.withValues(alpha: 0.3)
+                        : AppColors.navy.withValues(alpha: 0.05),
                     blurRadius: 10,
                     offset: const Offset(0, -2),
                   ),
@@ -357,7 +363,8 @@ class _QuizPlayScreenState extends ConsumerState<QuizPlayScreen> {
                   child: Text(_answered ? 'Continue' : 'Check'),
                 ),
               ),
-            ),
+            );
+            }),
           ],
         ),
       ),
@@ -373,7 +380,7 @@ class _QuizPlayScreenState extends ConsumerState<QuizPlayScreen> {
       case 'hard':
         return AppColors.error;
       default:
-        return AppColors.textSecondary;
+        return AppColors.navy;
     }
   }
 }
@@ -433,7 +440,7 @@ class _QuizResultsView extends StatelessWidget {
                   style: GoogleFonts.playfairDisplay(
                     fontSize: 28,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: context.textPrimary,
                   ),
                 ).animate().fadeIn(delay: 200.ms),
                 const SizedBox(height: 12),
@@ -441,7 +448,7 @@ class _QuizResultsView extends StatelessWidget {
                   'You scored $score out of $total ($pct%)',
                   style: GoogleFonts.inter(
                     fontSize: 16,
-                    color: AppColors.textSecondary,
+                    color: context.textSecondary,
                   ),
                 ).animate().fadeIn(delay: 300.ms),
                 const SizedBox(height: 12),

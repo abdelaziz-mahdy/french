@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../core/constants/adaptive_colors.dart';
 import '../../core/constants/app_colors.dart';
 import '../../models/phrase.dart';
 import '../../providers/data_provider.dart';
@@ -49,7 +50,7 @@ class _WordBankScreenState extends ConsumerState<WordBankScreen>
                     style: GoogleFonts.playfairDisplay(
                       fontSize: 30,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary,
+                      color: context.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -57,7 +58,7 @@ class _WordBankScreenState extends ConsumerState<WordBankScreen>
                     'Patterns, phrases & false friends',
                     style: GoogleFonts.inter(
                       fontSize: 15,
-                      color: AppColors.textSecondary,
+                      color: context.textSecondary,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -65,8 +66,8 @@ class _WordBankScreenState extends ConsumerState<WordBankScreen>
                     onChanged: (v) => setState(() => _searchQuery = v),
                     decoration: InputDecoration(
                       hintText: 'Search words...',
-                      prefixIcon: const Icon(Icons.search_rounded,
-                          color: AppColors.textLight),
+                      prefixIcon: Icon(Icons.search_rounded,
+                          color: context.textLight),
                       suffixIcon: _searchQuery.isNotEmpty
                           ? IconButton(
                               icon: const Icon(Icons.clear_rounded, size: 20),
@@ -200,14 +201,14 @@ class _PatternsTab extends ConsumerWidget {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 3),
                               decoration: BoxDecoration(
-                                color: AppColors.cream,
+                                color: context.creamColor,
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               child: Text(
                                 ex,
                                 style: GoogleFonts.inter(
                                   fontSize: 12,
-                                  color: AppColors.textSecondary,
+                                  color: context.textSecondary,
                                 ),
                               ),
                             ))
@@ -218,7 +219,7 @@ class _PatternsTab extends ConsumerWidget {
                     p.notes,
                     style: GoogleFonts.inter(
                       fontSize: 12,
-                      color: AppColors.textLight,
+                      color: context.textLight,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
@@ -282,7 +283,7 @@ class _PhrasesTab extends ConsumerWidget {
                     style: GoogleFonts.inter(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.textLight,
+                      color: context.textLight,
                       letterSpacing: 1,
                     ),
                   ),
@@ -304,7 +305,7 @@ class _PhrasesTab extends ConsumerWidget {
                             phrase.english,
                             style: GoogleFonts.inter(
                               fontSize: 14,
-                              color: AppColors.textSecondary,
+                              color: context.textSecondary,
                             ),
                           ),
                           if (phrase.usage != null) ...[
@@ -313,7 +314,7 @@ class _PhrasesTab extends ConsumerWidget {
                               phrase.usage!,
                               style: GoogleFonts.inter(
                                 fontSize: 12,
-                                color: AppColors.textLight,
+                                color: context.textLight,
                                 fontStyle: FontStyle.italic,
                               ),
                             ),
@@ -451,7 +452,7 @@ class _FalseFriendsTab extends ConsumerWidget {
                     'Use "${f.correctEnglish}" in English',
                     style: GoogleFonts.inter(
                       fontSize: 12,
-                      color: AppColors.textLight,
+                      color: context.textLight,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
@@ -508,7 +509,7 @@ class _EmptySearchResult extends StatelessWidget {
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
                 fontSize: 15,
-                color: AppColors.textSecondary,
+                color: context.textSecondary,
               ),
             ),
           ],

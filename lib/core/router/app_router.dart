@@ -120,14 +120,17 @@ class AppShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final index = _currentIndex(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: child,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: isDark ? AppColors.darkSurface : AppColors.white,
           boxShadow: [
             BoxShadow(
-              color: AppColors.navy.withValues(alpha: 0.06),
+              color: isDark
+                  ? Colors.black.withValues(alpha: 0.3)
+                  : AppColors.navy.withValues(alpha: 0.06),
               blurRadius: 20,
               offset: const Offset(0, -4),
             ),
@@ -192,6 +195,9 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final inactiveColor =
+        isDark ? AppColors.darkTextLight : AppColors.navInactive;
     return Expanded(
       child: Semantics(
         button: true,
@@ -206,7 +212,7 @@ class _NavItem extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             decoration: BoxDecoration(
               color: isActive
-                  ? AppColors.red.withValues(alpha: 0.1)
+                  ? AppColors.red.withValues(alpha: isDark ? 0.2 : 0.1)
                   : Colors.transparent,
               borderRadius: BorderRadius.circular(12),
             ),
@@ -215,14 +221,14 @@ class _NavItem extends StatelessWidget {
               children: [
                 Icon(
                   icon,
-                  color: isActive ? AppColors.red : AppColors.navInactive,
+                  color: isActive ? AppColors.red : inactiveColor,
                   size: 24,
                 ),
                 const SizedBox(height: 4),
                 Text(
                   label,
                   style: TextStyle(
-                    color: isActive ? AppColors.red : AppColors.navInactive,
+                    color: isActive ? AppColors.red : inactiveColor,
                     fontSize: 11,
                     fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
                   ),

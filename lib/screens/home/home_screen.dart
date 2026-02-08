@@ -3,11 +3,13 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../core/constants/adaptive_colors.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_strings.dart';
 import '../../core/constants/icon_map.dart';
 import '../../providers/data_provider.dart';
 import '../../providers/progress_provider.dart';
+import '../../providers/theme_provider.dart';
 import '../../widgets/french_card.dart';
 import '../../widgets/progress_ring.dart';
 import '../../widgets/stat_badge.dart';
@@ -42,7 +44,7 @@ class HomeScreen extends ConsumerWidget {
                               style: GoogleFonts.playfairDisplay(
                                 fontSize: 32,
                                 fontWeight: FontWeight.w700,
-                                color: AppColors.textPrimary,
+                                color: context.textPrimary,
                               ),
                             ),
                             const SizedBox(height: 4),
@@ -50,38 +52,67 @@ class HomeScreen extends ConsumerWidget {
                               AppStrings.greetingSubtitle,
                               style: GoogleFonts.inter(
                                 fontSize: 15,
-                                color: AppColors.textSecondary,
+                                color: context.textSecondary,
                               ),
                             ),
                           ],
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.gold.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.local_fire_department_rounded,
-                                color: AppColors.gold,
-                                size: 20,
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                '${progress.currentStreak}',
-                                style: GoogleFonts.inter(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.goldDark,
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () => ref
+                                  .read(themeModeProvider.notifier)
+                                  .toggle(),
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? AppColors.darkCard
+                                      : AppColors.surfaceLight,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Icons.light_mode_rounded
+                                      : Icons.dark_mode_rounded,
+                                  size: 20,
+                                  color: AppColors.gold,
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(width: 8),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 8,
+                              ),
+                              decoration: BoxDecoration(
+                                color:
+                                    AppColors.gold.withValues(alpha: 0.15),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.local_fire_department_rounded,
+                                    color: AppColors.gold,
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    '${progress.currentStreak}',
+                                    style: GoogleFonts.inter(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.goldDark,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ).animate().fadeIn(duration: 400.ms).slideX(begin: -0.1),
@@ -126,7 +157,7 @@ class HomeScreen extends ConsumerWidget {
                         padding: const EdgeInsets.only(bottom: 16),
                         child: FrenchCard(
                           margin: EdgeInsets.zero,
-                          color: AppColors.cream,
+                          color: context.creamColor,
                           child: Row(
                             children: [
                               Container(
@@ -152,7 +183,7 @@ class HomeScreen extends ConsumerWidget {
                                       style: GoogleFonts.inter(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600,
-                                        color: AppColors.textPrimary,
+                                        color: context.textPrimary,
                                       ),
                                     ),
                                     const SizedBox(height: 2),
@@ -160,7 +191,7 @@ class HomeScreen extends ConsumerWidget {
                                       'Pick a chapter below to begin.',
                                       style: GoogleFonts.inter(
                                         fontSize: 13,
-                                        color: AppColors.textSecondary,
+                                        color: context.textSecondary,
                                       ),
                                     ),
                                   ],
@@ -175,7 +206,7 @@ class HomeScreen extends ConsumerWidget {
                       style: GoogleFonts.inter(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
+                        color: context.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -222,7 +253,7 @@ class HomeScreen extends ConsumerWidget {
                                   style: GoogleFonts.inter(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.textPrimary,
+                                    color: context.textPrimary,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
@@ -232,7 +263,7 @@ class HomeScreen extends ConsumerWidget {
                                   overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.inter(
                                     fontSize: 13,
-                                    color: AppColors.textSecondary,
+                                    color: context.textSecondary,
                                   ),
                                 ),
                               ],
@@ -240,7 +271,7 @@ class HomeScreen extends ConsumerWidget {
                           ),
                           Icon(
                             Icons.chevron_right_rounded,
-                            color: AppColors.textLight,
+                            color: context.textLight,
                           ),
                         ],
                       ),
