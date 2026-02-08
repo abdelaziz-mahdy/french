@@ -43,6 +43,7 @@ class ProgressNotifier extends Notifier<UserProgress> {
             ))
         .copyWith(
       lessonsCompleted: (existing?.lessonsCompleted ?? 0) + 1,
+      completionPercent: 100,
     );
 
     state = state.copyWith(
