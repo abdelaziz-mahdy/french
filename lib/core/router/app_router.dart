@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../screens/home/home_screen.dart';
 import '../../screens/lessons/lessons_screen.dart';
 import '../../screens/lessons/lesson_detail_screen.dart';
 import '../../screens/quiz/quiz_screen.dart';
 import '../../screens/quiz/quiz_play_screen.dart';
-import '../../screens/wordbank/wordbank_screen.dart';
-import '../../screens/profile/profile_screen.dart';
 import '../../screens/splash/splash_screen.dart';
 import '../constants/app_colors.dart';
 
@@ -28,31 +25,13 @@ final appRouter = GoRouter(
         GoRoute(
           path: '/',
           pageBuilder: (context, state) => const NoTransitionPage(
-            child: HomeScreen(),
-          ),
-        ),
-        GoRoute(
-          path: '/lessons',
-          pageBuilder: (context, state) => const NoTransitionPage(
             child: LessonsScreen(),
-          ),
-        ),
-        GoRoute(
-          path: '/wordbank',
-          pageBuilder: (context, state) => const NoTransitionPage(
-            child: WordBankScreen(),
           ),
         ),
         GoRoute(
           path: '/quiz',
           pageBuilder: (context, state) => const NoTransitionPage(
             child: QuizScreen(),
-          ),
-        ),
-        GoRoute(
-          path: '/profile',
-          pageBuilder: (context, state) => const NoTransitionPage(
-            child: ProfileScreen(),
           ),
         ),
       ],
@@ -110,8 +89,7 @@ class AppShell extends StatelessWidget {
 
   int _currentIndex(BuildContext context) {
     final location = GoRouterState.of(context).uri.path;
-    if (location.startsWith('/lessons')) return 1;
-    if (location.startsWith('/quiz')) return 2;
+    if (location.startsWith('/quiz')) return 1;
     return 0;
   }
 
@@ -140,21 +118,15 @@ class AppShell extends StatelessWidget {
             child: Row(
               children: [
                 _NavItem(
-                  icon: Icons.home_rounded,
-                  label: 'Home',
+                  icon: Icons.menu_book_rounded,
+                  label: 'Lessons',
                   isActive: index == 0,
                   onTap: () => context.go('/'),
                 ),
                 _NavItem(
-                  icon: Icons.menu_book_rounded,
-                  label: 'Lessons',
-                  isActive: index == 1,
-                  onTap: () => context.go('/lessons'),
-                ),
-                _NavItem(
                   icon: Icons.quiz_rounded,
                   label: 'Quiz',
-                  isActive: index == 2,
+                  isActive: index == 1,
                   onTap: () => context.go('/quiz'),
                 ),
               ],
