@@ -220,7 +220,7 @@ class ProfileScreen extends ConsumerWidget {
                             size: 20,
                             color: pct >= 100
                                 ? AppColors.success
-                                : AppColors.navy,
+                                : context.navyAdaptive,
                           ),
                           const SizedBox(width: 12),
                           Expanded(
@@ -268,7 +268,7 @@ class ProfileScreen extends ConsumerWidget {
                                   fontWeight: FontWeight.w700,
                                   color: pct >= 100
                                       ? AppColors.success
-                                      : AppColors.textSecondary,
+                                      : context.textSecondary,
                                 ),
                               ),
                               if (best > 0)

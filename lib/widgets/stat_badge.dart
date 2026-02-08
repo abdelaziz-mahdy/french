@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../core/constants/app_colors.dart';
+import '../core/constants/adaptive_colors.dart';
 
 class StatBadge extends StatelessWidget {
   final String value;
@@ -17,7 +17,7 @@ class StatBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final badgeColor = color ?? AppColors.navy;
+    final badgeColor = color ?? context.navyAdaptive;
     final textTheme = Theme.of(context).textTheme;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

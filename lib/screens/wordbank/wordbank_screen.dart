@@ -84,7 +84,7 @@ class _WordBankScreenState extends ConsumerState<WordBankScreen>
             TabBar(
               controller: _tabController,
               labelColor: AppColors.red,
-              unselectedLabelColor: AppColors.textLight,
+              unselectedLabelColor: context.textLight,
               labelStyle: GoogleFonts.inter(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -165,14 +165,14 @@ class _PatternsTab extends ConsumerWidget {
                           style: GoogleFonts.inter(
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.navy,
+                            color: context.navyAdaptive,
                           ),
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Icon(Icons.arrow_forward_rounded,
-                            size: 16, color: AppColors.textLight),
+                            size: 16, color: context.textLight),
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(
@@ -297,7 +297,7 @@ class _PhrasesTab extends ConsumerWidget {
                             style: GoogleFonts.inter(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.navy,
+                              color: context.navyAdaptive,
                             ),
                           ),
                           const SizedBox(height: 4),
@@ -392,7 +392,7 @@ class _FalseFriendsTab extends ConsumerWidget {
                           style: GoogleFonts.inter(
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.navy,
+                            color: context.navyAdaptive,
                           ),
                         ),
                       ),
@@ -400,7 +400,7 @@ class _FalseFriendsTab extends ConsumerWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
-                          color: _dangerColor(f.dangerLevel)
+                          color: _dangerColor(context, f.dangerLevel)
                               .withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(6),
                         ),
@@ -409,7 +409,7 @@ class _FalseFriendsTab extends ConsumerWidget {
                           style: GoogleFonts.inter(
                             fontSize: 10,
                             fontWeight: FontWeight.w700,
-                            color: _dangerColor(f.dangerLevel),
+                            color: _dangerColor(context, f.dangerLevel),
                           ),
                         ),
                       ),
@@ -471,7 +471,7 @@ class _FalseFriendsTab extends ConsumerWidget {
     );
   }
 
-  Color _dangerColor(String level) {
+  Color _dangerColor(BuildContext context, String level) {
     switch (level) {
       case 'VERY HIGH':
         return AppColors.error;
@@ -482,7 +482,7 @@ class _FalseFriendsTab extends ConsumerWidget {
       case 'FUNNY':
         return AppColors.info;
       default:
-        return AppColors.textLight;
+        return context.navyAdaptive;
     }
   }
 }
@@ -499,8 +499,8 @@ class _EmptySearchResult extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.search_off_rounded,
-                size: 48, color: AppColors.textLight),
+            Icon(Icons.search_off_rounded,
+                size: 48, color: context.textLight),
             const SizedBox(height: 16),
             Text(
               query.isEmpty

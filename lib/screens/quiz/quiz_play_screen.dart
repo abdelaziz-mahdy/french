@@ -162,7 +162,7 @@ class _QuizPlayScreenState extends ConsumerState<QuizPlayScreen> {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: _difficultyColor(question.difficulty)
+                      color: _difficultyColor(context, question.difficulty)
                           .withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(6),
                     ),
@@ -171,7 +171,7 @@ class _QuizPlayScreenState extends ConsumerState<QuizPlayScreen> {
                       style: GoogleFonts.inter(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
-                        color: _difficultyColor(question.difficulty),
+                        color: _difficultyColor(context, question.difficulty),
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -197,8 +197,8 @@ class _QuizPlayScreenState extends ConsumerState<QuizPlayScreen> {
                         textColor = AppColors.error;
                       }
                     } else if (isSelected) {
-                      borderColor = AppColors.navy;
-                      bgColor = AppColors.navy.withValues(alpha: 0.05);
+                      borderColor = context.navyAdaptive;
+                      bgColor = context.navyAdaptive.withValues(alpha: 0.05);
                     }
 
                     return Padding(
@@ -290,8 +290,8 @@ class _QuizPlayScreenState extends ConsumerState<QuizPlayScreen> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(Icons.info_outline_rounded,
-                              color: AppColors.navy, size: 18),
+                          Icon(Icons.info_outline_rounded,
+                              color: context.navyAdaptive, size: 18),
                           const SizedBox(width: 10),
                           Expanded(
                             child: Text(
@@ -371,7 +371,7 @@ class _QuizPlayScreenState extends ConsumerState<QuizPlayScreen> {
     );
   }
 
-  Color _difficultyColor(String difficulty) {
+  Color _difficultyColor(BuildContext context, String difficulty) {
     switch (difficulty) {
       case 'easy':
         return AppColors.success;
@@ -380,7 +380,7 @@ class _QuizPlayScreenState extends ConsumerState<QuizPlayScreen> {
       case 'hard':
         return AppColors.error;
       default:
-        return AppColors.navy;
+        return context.navyAdaptive;
     }
   }
 }

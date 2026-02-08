@@ -476,13 +476,13 @@ class _TableBlock extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: DataTable(
               headingRowColor:
-                  WidgetStateProperty.all(AppColors.navy.withValues(alpha: 0.05)),
+                  WidgetStateProperty.all(context.navyAdaptive.withValues(alpha: 0.05)),
               columnSpacing: 20,
               horizontalMargin: 16,
               headingTextStyle: GoogleFonts.inter(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
-                color: AppColors.navy,
+                color: context.navyAdaptive,
               ),
               dataTextStyle: GoogleFonts.inter(
                 fontSize: 13,
@@ -525,7 +525,7 @@ class _ExampleBlock extends StatelessWidget {
               style: GoogleFonts.inter(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: AppColors.navy,
+                color: context.navyAdaptive,
               ),
             ),
             const SizedBox(height: 6),

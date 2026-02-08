@@ -168,16 +168,16 @@ class DataSourceContent extends ConsumerWidget {
         padding: const EdgeInsets.only(bottom: 10),
         child: FrenchCard(
           margin: EdgeInsets.zero,
-          color: context.navyAdaptive.withValues(alpha: 0.04),
-          border: Border.all(color: context.navyAdaptive.withValues(alpha: 0.15)),
+          color: AppColors.navy.withValues(alpha: 0.04),
+          border: Border.all(color: AppColors.navy.withValues(alpha: 0.15)),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 width: 28,
                 height: 28,
-                decoration: BoxDecoration(
-                    color: context.navyAdaptive, shape: BoxShape.circle),
+                decoration: const BoxDecoration(
+                    color: AppColors.navy, shape: BoxShape.circle),
                 alignment: Alignment.center,
                 child: Text('$num',
                     style: GoogleFonts.inter(
@@ -716,9 +716,9 @@ class DataSourceContent extends ConsumerWidget {
       children: [
         FrenchCard(
           margin: EdgeInsets.zero,
-          color: context.navyAdaptive.withValues(alpha: 0.04),
+          color: AppColors.navy.withValues(alpha: 0.04),
           border:
-              Border.all(color: context.navyAdaptive.withValues(alpha: 0.15)),
+              Border.all(color: AppColors.navy.withValues(alpha: 0.15)),
           child: Row(
             children: [
               Icon(Icons.rule_rounded,
