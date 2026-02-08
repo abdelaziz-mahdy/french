@@ -1,0 +1,338 @@
+{
+  "id": "tef_ce_002",
+  "title": "TEF Compréhension écrite - Test 2",
+  "description": "Practice test with everyday French scenarios: work, health, tourism, and social topics.",
+  "section": "comprehension_ecrite",
+  "difficulty": "B1",
+  "timeMinutes": 60,
+  "passages": [
+    {
+      "id": "tef_ce_002_A_01",
+      "type": "advertisement",
+      "title": "Déménagement Express",
+      "content": "DÉMÉNAGEMENT EXPRESS\nDevis gratuit en ligne !\n- Appartements et maisons\n- Garde-meubles disponible\n- Assurance incluse\nPrix à partir de 390 € (studio, même ville)\nTél : 01 55 78 90 12\nDisponible 7j/7, y compris jours fériés",
+      "questions": [
+        {
+          "id": "tef_ce_002_A_01_q1",
+          "question": "Que propose cette entreprise en plus du déménagement ?",
+          "options": [
+            "La vente de meubles",
+            "Le stockage de meubles",
+            "La décoration d'intérieur",
+            "Le nettoyage d'appartement"
+          ],
+          "correctIndex": 1,
+          "explanation": "The ad mentions 'Garde-meubles disponible' (Furniture storage available)."
+        }
+      ]
+    },
+    {
+      "id": "tef_ce_002_A_02",
+      "type": "notice",
+      "title": "Fermeture de la piscine",
+      "content": "PISCINE MUNICIPALE JEAN MOULIN\nFERMETURE EXCEPTIONNELLE\n\nLa piscine sera fermée du 1er au 14 septembre pour maintenance annuelle des bassins.\n\nLes abonnés pourront utiliser la piscine du complexe sportif des Lilas (15 min en bus, ligne 7) sur présentation de leur carte d'abonnement.\n\nRéouverture le 15 septembre à 8h00.",
+      "questions": [
+        {
+          "id": "tef_ce_002_A_02_q1",
+          "question": "Que peuvent faire les abonnés pendant la fermeture ?",
+          "options": [
+            "Demander un remboursement",
+            "Nager dans une autre piscine avec leur carte",
+            "Attendre la réouverture",
+            "S'inscrire dans un club privé"
+          ],
+          "correctIndex": 1,
+          "explanation": "Subscribers can use the pool at 'complexe sportif des Lilas ... sur présentation de leur carte d'abonnement'."
+        }
+      ]
+    },
+    {
+      "id": "tef_ce_002_A_03",
+      "type": "notice",
+      "title": "Marché de Noël de Strasbourg",
+      "content": "MARCHÉ DE NOËL DE STRASBOURG\ndu 24 novembre au 24 décembre\n\nPlus de 300 chalets sur 10 sites différents\nArtisanat local, gastronomie alsacienne, animations\n\nHoraires : 10h - 20h (jusqu'à 22h les vendredis et samedis)\nEntrée libre\n\nPatinoire : 5 € / personne (gratuit pour les moins de 6 ans)",
+      "questions": [
+        {
+          "id": "tef_ce_002_A_03_q1",
+          "question": "À quel horaire le marché ferme-t-il le samedi ?",
+          "options": [
+            "18h",
+            "20h",
+            "22h",
+            "Minuit"
+          ],
+          "correctIndex": 2,
+          "explanation": "Hours are '10h - 20h (jusqu'à 22h les vendredis et samedis)' (until 10pm on Fridays and Saturdays)."
+        }
+      ]
+    },
+    {
+      "id": "tef_ce_002_A_04",
+      "type": "sign",
+      "title": "Centre médical Pasteur",
+      "content": "CENTRE MÉDICAL PASTEUR\nConsultations uniquement sur rendez-vous\n\nDr. Lemaire (Généraliste) - Lundi, Mercredi, Vendredi\nDr. Faure (Pédiatre) - Mardi et Jeudi\nDr. Nguyen (Dermatologue) - Mercredi après-midi\n\nUrgences : composez le 15 (SAMU)\nPas de consultations sans rendez-vous. Merci.",
+      "questions": [
+        {
+          "id": "tef_ce_002_A_04_q1",
+          "question": "Si un enfant est malade un lundi, que doit-on faire ?",
+          "options": [
+            "Consulter le Dr. Faure directement",
+            "Aller au centre médical sans rendez-vous",
+            "Prendre rendez-vous, car le Dr. Faure consulte le mardi et jeudi",
+            "Appeler le 15"
+          ],
+          "correctIndex": 2,
+          "explanation": "The pediatrician Dr. Faure only sees patients on Tuesday and Thursday, and all consultations require an appointment."
+        }
+      ]
+    },
+    {
+      "id": "tef_ce_002_A_05",
+      "type": "notice",
+      "title": "Avis de coupure d'eau",
+      "content": "AVIS DE COUPURE D'EAU\n\nLe mardi 8 octobre de 8h00 à 14h00, une coupure d'eau est prévue dans les rues suivantes :\n- Rue Victor Hugo\n- Rue Émile Zola\n- Avenue Jean Jaurès\n\nNous vous conseillons de prévoir des réserves d'eau.\nNous vous remercions de votre compréhension.\n\nService des eaux - Mairie de Clichy",
+      "questions": [
+        {
+          "id": "tef_ce_002_A_05_q1",
+          "question": "Combien de temps durera la coupure d'eau ?",
+          "options": [
+            "2 heures",
+            "4 heures",
+            "6 heures",
+            "8 heures"
+          ],
+          "correctIndex": 2,
+          "explanation": "The water will be cut 'de 8h00 à 14h00' (from 8am to 2pm), which is 6 hours."
+        }
+      ]
+    },
+    {
+      "id": "tef_ce_002_B_01",
+      "type": "email",
+      "title": "Nouveau règlement télétravail",
+      "content": "De : rh@entreprise-martin.fr\nÀ : tous.les.employes@entreprise-martin.fr\nObjet : Nouveau règlement intérieur - Télétravail\n\nChers collaborateurs,\n\nÀ compter du 1er janvier, le règlement intérieur de l'entreprise évolue concernant le télétravail :\n\n- Tous les salariés ayant plus de 6 mois d'ancienneté peuvent bénéficier de 2 jours de télétravail par semaine.\n- Les jours de télétravail doivent être fixés et validés par le responsable d'équipe.\n- Une indemnité mensuelle de 30 € sera versée pour couvrir les frais (électricité, internet).\n- Les réunions d'équipe du lundi restent obligatoires en présentiel.\n\nLes demandes doivent être adressées au service RH avant le 15 décembre.\n\nCordialement,\nIsabelle Roche\nDirectrice des Ressources Humaines",
+      "questions": [
+        {
+          "id": "tef_ce_002_B_01_q1",
+          "question": "Qui peut bénéficier du télétravail dans cette entreprise ?",
+          "options": [
+            "Tous les employés sans condition",
+            "Les employés ayant plus de 6 mois d'ancienneté",
+            "Uniquement les cadres et les managers",
+            "Les employés qui habitent loin du bureau"
+          ],
+          "correctIndex": 1,
+          "explanation": "All employees with more than 6 months of seniority can benefit from 2 days of remote work."
+        },
+        {
+          "id": "tef_ce_002_B_01_q2",
+          "question": "Quel jour les employés doivent-ils obligatoirement être au bureau ?",
+          "options": [
+            "Le vendredi",
+            "Le mercredi",
+            "Le lundi",
+            "Tous les jours"
+          ],
+          "correctIndex": 2,
+          "explanation": "'Les réunions d'équipe du lundi restent obligatoires en présentiel' (Monday team meetings remain mandatory in person)."
+        }
+      ]
+    },
+    {
+      "id": "tef_ce_002_B_02",
+      "type": "article",
+      "title": "Record de touristes étrangers",
+      "content": "LA FRANCE BAT SON RECORD DE TOURISTES ÉTRANGERS\n\nLa France a accueilli 100 millions de touristes étrangers l'année dernière, un record historique qui confirme sa place de première destination touristique mondiale.\n\nParis reste la ville la plus visitée, mais les régions attirent de plus en plus. La Provence, la Bretagne et les Alpes ont enregistré des hausses de fréquentation de 15 % à 20 %. Les touristes recherchent désormais des expériences authentiques : séjours à la ferme, cours de cuisine régionale, randonnées dans les vignobles.\n\nLe secteur touristique représente 8 % du PIB français et emploie directement 2 millions de personnes. Cependant, le surtourisme dans certaines zones pose des problèmes : nuisances pour les habitants, dégradation des sites naturels et hausse des prix de l'immobilier.",
+      "questions": [
+        {
+          "id": "tef_ce_002_B_02_q1",
+          "question": "D'après l'article, qu'est-ce qui attire les touristes en dehors de Paris ?",
+          "options": [
+            "Les prix plus bas des hôtels",
+            "Les expériences authentiques comme les cours de cuisine et les randonnées",
+            "Les parcs d'attractions",
+            "Les festivals de musique"
+          ],
+          "correctIndex": 1,
+          "explanation": "Tourists seek 'des expériences authentiques : séjours à la ferme, cours de cuisine régionale, randonnées dans les vignobles'."
+        }
+      ]
+    },
+    {
+      "id": "tef_ce_002_B_03",
+      "type": "notice",
+      "title": "Comment obtenir votre carte Vitale",
+      "content": "COMMENT OBTENIR VOTRE CARTE VITALE\n\nLa carte Vitale est la carte d'assurance maladie en France. Elle permet le remboursement de vos dépenses de santé.\n\nPour obtenir votre carte Vitale :\n1. Être affilié à la Sécurité sociale (par votre emploi ou votre résidence en France depuis plus de 3 mois)\n2. Créer votre compte sur ameli.fr\n3. Envoyer un formulaire de demande accompagné d'une photo d'identité et d'un justificatif d'identité\n4. Délai de réception : 2 à 4 semaines\n\nEn attendant votre carte, vous pouvez demander une attestation temporaire sur ameli.fr. Cette attestation vous permet d'être remboursé normalement.\n\nImportant : Mettez à jour votre carte Vitale au moins une fois par an dans une pharmacie ou une borne de la Sécurité sociale.",
+      "questions": [
+        {
+          "id": "tef_ce_002_B_03_q1",
+          "question": "Que peut-on faire en attendant de recevoir sa carte Vitale ?",
+          "options": [
+            "Aller à l'hôpital sans payer",
+            "Utiliser la carte Vitale d'un proche",
+            "Demander une attestation temporaire en ligne",
+            "Payer toutes les consultations sans remboursement"
+          ],
+          "correctIndex": 2,
+          "explanation": "You can 'demander une attestation temporaire sur ameli.fr' which allows normal reimbursement."
+        },
+        {
+          "id": "tef_ce_002_B_03_q2",
+          "question": "À quelle fréquence faut-il mettre à jour sa carte Vitale ?",
+          "options": [
+            "Tous les mois",
+            "Au moins une fois par an",
+            "Tous les 5 ans",
+            "Seulement en cas de changement d'adresse"
+          ],
+          "correctIndex": 1,
+          "explanation": "'Mettez à jour votre carte Vitale au moins une fois par an'."
+        }
+      ]
+    },
+    {
+      "id": "tef_ce_002_C_01",
+      "type": "article",
+      "title": "Les Français et le sport",
+      "content": "LES FRANÇAIS ET LE SPORT : UNE RÉVOLUTION SILENCIEUSE\n\nLa pratique sportive des Français a profondément évolué ces dernières années. Si le football reste le sport le plus populaire en nombre de licenciés (plus de 2 millions), les activités individuelles connaissent une croissance spectaculaire.\n\nLa course à pied est devenue un phénomène de société. On compte aujourd'hui 12 millions de coureurs réguliers en France, soit une augmentation de 40 % en dix ans. Le succès des applications de suivi (Strava, Nike Run Club) et des courses événementielles comme le Marathon de Paris ou les Color Run a contribué à populariser cette pratique.\n\nLe yoga et le pilates attirent aussi de plus en plus d'adeptes, en particulier chez les 25-45 ans. Ces disciplines, qui allient exercice physique et bien-être mental, répondent à un besoin croissant de gestion du stress dans une société de plus en plus exigeante.\n\nParadoxalement, la sédentarité reste un problème majeur de santé publique. Selon l'ANSES, 95 % des adultes français ne pratiquent pas suffisamment d'activité physique. L'Organisation Mondiale de la Santé recommande au minimum 150 minutes d'activité modérée par semaine, un objectif que la plupart des Français n'atteignent pas.\n\nLes pouvoirs publics tentent de réagir. Le programme « Bouger 30 minutes par jour » lancé dans les écoles primaires vise à créer des habitudes dès le plus jeune âge. Des pistes cyclables et des parcours sportifs en plein air sont aménagés dans de nombreuses villes pour encourager l'activité physique quotidienne.",
+      "questions": [
+        {
+          "id": "tef_ce_002_C_01_q1",
+          "question": "D'après l'article, quelle activité sportive a connu la plus forte croissance ?",
+          "options": [
+            "Le football",
+            "La course à pied",
+            "Le yoga",
+            "La natation"
+          ],
+          "correctIndex": 1,
+          "explanation": "Running is described as 'un phénomène de société' with 12 million regular runners and a 40% increase in ten years."
+        },
+        {
+          "id": "tef_ce_002_C_01_q2",
+          "question": "Que signifie le mot « paradoxalement » dans ce texte ?",
+          "options": [
+            "De manière logique et attendue",
+            "De façon contradictoire avec ce qui précède",
+            "De manière progressive",
+            "De façon définitive"
+          ],
+          "correctIndex": 1,
+          "explanation": "'Paradoxalement' introduces a contradiction: despite the sports boom, sedentary behavior remains a major problem."
+        },
+        {
+          "id": "tef_ce_002_C_01_q3",
+          "question": "Quelle est la recommandation de l'OMS en matière d'activité physique ?",
+          "options": [
+            "30 minutes par jour",
+            "1 heure par semaine",
+            "Au moins 150 minutes d'activité modérée par semaine",
+            "3 séances de sport par semaine"
+          ],
+          "correctIndex": 2,
+          "explanation": "The WHO recommends 'au minimum 150 minutes d'activité modérée par semaine'."
+        }
+      ]
+    },
+    {
+      "id": "tef_ce_002_C_02",
+      "type": "article",
+      "title": "Pour ou contre l'uniforme à l'école ?",
+      "content": "POUR OU CONTRE L'UNIFORME À L'ÉCOLE ?\n\nLe débat sur l'uniforme scolaire revient régulièrement en France. Ses partisans affirment qu'il réduit les inégalités sociales visibles, évite les conflits liés aux vêtements de marque et renforce le sentiment d'appartenance à l'école.\n\nSes opposants, en revanche, y voient une atteinte à la liberté d'expression des élèves. Ils soulignent que l'uniforme ne résout pas les problèmes d'inégalité profonds et qu'il représente un coût supplémentaire pour les familles, qui doivent acheter à la fois l'uniforme et des vêtements pour le week-end.\n\nEn France, l'uniforme n'est pas obligatoire dans les écoles publiques, contrairement à de nombreux pays anglophones. Seuls quelques établissements privés l'imposent. Un sondage récent montre que 63 % des Français seraient favorables à l'introduction de l'uniforme dans les écoles publiques.",
+      "questions": [
+        {
+          "id": "tef_ce_002_C_02_q1",
+          "question": "Quel argument les opposants à l'uniforme avancent-ils ?",
+          "options": [
+            "L'uniforme est trop difficile à entretenir",
+            "Il représente un coût supplémentaire et limite la liberté d'expression",
+            "Les enfants préfèrent porter des vêtements de sport",
+            "L'uniforme est inconfortable en été"
+          ],
+          "correctIndex": 1,
+          "explanation": "Opponents see uniform as 'une atteinte à la liberté d'expression des élèves' and 'un coût supplémentaire pour les familles'."
+        },
+        {
+          "id": "tef_ce_002_C_02_q2",
+          "question": "Quelle est la situation actuelle de l'uniforme dans les écoles publiques françaises ?",
+          "options": [
+            "Il est obligatoire partout",
+            "Il est interdit",
+            "Il n'est pas obligatoire",
+            "Il est obligatoire uniquement au collège"
+          ],
+          "correctIndex": 2,
+          "explanation": "'L'uniforme n'est pas obligatoire dans les écoles publiques'."
+        }
+      ]
+    },
+    {
+      "id": "tef_ce_002_D_01",
+      "type": "article",
+      "title": "L'intelligence artificielle et l'avenir du travail en France",
+      "content": "L'INTELLIGENCE ARTIFICIELLE ET L'AVENIR DU TRAVAIL EN FRANCE\n\nRapport de synthèse - Conseil Économique, Social et Environnemental\n\nL'intelligence artificielle (IA) transforme en profondeur le marché du travail. Selon un rapport de l'OCDE, 27 % des emplois en France présentent un risque élevé d'automatisation dans les dix prochaines années. Les métiers les plus exposés sont ceux qui impliquent des tâches répétitives et prévisibles : caissiers, comptables, agents administratifs.\n\nToutefois, l'IA crée aussi de nouveaux métiers. Les besoins en data scientists, ingénieurs en apprentissage automatique, et spécialistes de l'éthique de l'IA sont en forte croissance. Le problème est que ces nouveaux emplois exigent des compétences que le système éducatif actuel ne fournit pas suffisamment. Il y a un décalage croissant entre les compétences disponibles sur le marché et celles que les entreprises recherchent.\n\nLa formation continue apparaît comme une solution essentielle. Le Compte Personnel de Formation (CPF), qui permet à chaque salarié de cumuler des droits à la formation tout au long de sa carrière, doit être renforcé et mieux orienté vers les compétences numériques. Actuellement, seulement 15 % des formations financées par le CPF concernent le numérique.\n\nPar ailleurs, le dialogue social doit accompagner cette transition. Les entreprises qui automatisent certains postes ont une responsabilité envers leurs salariés : proposer des reconversions, financer des formations, et maintenir un dialogue transparent avec les représentants du personnel.\n\nLe modèle français de protection sociale offre un cadre favorable à cette transition, à condition de l'adapter. Le système d'assurance-chômage, les dispositifs de formation et les aides à la mobilité professionnelle doivent évoluer pour répondre aux défis spécifiques posés par l'automatisation. L'enjeu n'est pas de s'opposer au progrès technologique, mais de s'assurer qu'il bénéficie à l'ensemble de la société.",
+      "questions": [
+        {
+          "id": "tef_ce_002_D_01_q1",
+          "question": "Selon le rapport de l'OCDE, quel pourcentage d'emplois en France est menacé par l'automatisation ?",
+          "options": [
+            "15 %",
+            "27 %",
+            "40 %",
+            "50 %"
+          ],
+          "correctIndex": 1,
+          "explanation": "'27 % des emplois en France présentent un risque élevé d'automatisation'."
+        },
+        {
+          "id": "tef_ce_002_D_01_q2",
+          "question": "Quel problème le texte identifie-t-il concernant les nouveaux métiers liés à l'IA ?",
+          "options": [
+            "Ces métiers sont mal rémunérés",
+            "Il n'y a pas assez de candidats avec les compétences requises",
+            "Les entreprises ne veulent pas embaucher",
+            "Ces métiers n'existent qu'à l'étranger"
+          ],
+          "correctIndex": 1,
+          "explanation": "There is 'un décalage croissant entre les compétences disponibles sur le marché et celles que les entreprises recherchent'."
+        },
+        {
+          "id": "tef_ce_002_D_01_q3",
+          "question": "Quel rôle le CPF devrait-il jouer selon le texte ?",
+          "options": [
+            "Financer les vacances des employés",
+            "Remplacer le système d'assurance-chômage",
+            "Être renforcé et mieux orienté vers les compétences numériques",
+            "Permettre aux employés de travailler moins"
+          ],
+          "correctIndex": 2,
+          "explanation": "The CPF 'doit être renforcé et mieux orienté vers les compétences numériques'."
+        },
+        {
+          "id": "tef_ce_002_D_01_q4",
+          "question": "Quelle responsabilité le texte attribue-t-il aux entreprises qui automatisent ?",
+          "options": [
+            "Payer des impôts supplémentaires",
+            "Proposer des reconversions et financer des formations",
+            "Cesser d'utiliser l'IA",
+            "Augmenter les salaires de tous les employés"
+          ],
+          "correctIndex": 1,
+          "explanation": "Companies must 'proposer des reconversions, financer des formations, et maintenir un dialogue transparent'."
+        },
+        {
+          "id": "tef_ce_002_D_01_q5",
+          "question": "Quelle est la conclusion principale du texte ?",
+          "options": [
+            "Il faut interdire l'intelligence artificielle en France",
+            "Le progrès technologique est inévitable et bénéfique pour tous",
+            "Il faut adapter les dispositifs sociaux pour que le progrès bénéficie à toute la société",
+            "Le système éducatif français est le meilleur en Europe"
+          ],
+          "correctIndex": 2,
+          "explanation": "'L'enjeu n'est pas de s'opposer au progrès technologique, mais de s'assurer qu'il bénéficie à l'ensemble de la société'."
+        }
+      ]
+    }
+  ]
+}
