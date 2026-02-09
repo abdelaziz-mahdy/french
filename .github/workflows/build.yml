@@ -1,9 +1,8 @@
 # =============================================================================
-# Build Workflow - Build Release Artifacts
+# Build Workflow - Build Release Artifacts (Manual)
 # =============================================================================
-# Triggered by:
-#   - Version tags (v*) for automated release builds
-#   - Manual trigger (workflow_dispatch) for on-demand builds
+# Triggered by manual trigger (workflow_dispatch) for on-demand builds.
+# For automated releases, use the Release workflow (triggered by v* tags).
 #
 # Jobs (run in parallel where possible):
 #   1. build-apk:       Builds a universal release APK
@@ -16,9 +15,6 @@
 name: Build
 
 on:
-  push:
-    tags:
-      - 'v*' # Trigger on version tags like v1.0.0, v2.1.3, etc.
   workflow_dispatch:
     # Allow manual triggering from the GitHub Actions UI
     inputs:
