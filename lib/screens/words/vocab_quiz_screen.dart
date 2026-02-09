@@ -14,6 +14,7 @@ import '../../providers/progress_provider.dart';
 import '../../services/spaced_repetition.dart';
 import '../../core/constants/responsive.dart';
 import '../../widgets/french_card.dart';
+import '../../widgets/speaker_button.dart';
 
 /// A multiple-choice vocabulary quiz screen.
 ///
@@ -37,6 +38,8 @@ class _VocabQuizScreenState extends ConsumerState<VocabQuizScreen> {
   // Quiz state
   List<_QuizQuestion> _questions = [];
   bool _loaded = false;
+  bool _showStudyPhase = true;
+  List<VocabularyWord> _studyWords = [];
   int _currentIndex = 0;
   int? _selectedIndex;
   bool _answered = false;
@@ -59,6 +62,10 @@ class _VocabQuizScreenState extends ConsumerState<VocabQuizScreen> {
 
         if (_questions.isEmpty) {
           return _buildEmptyState(context);
+        }
+
+        if (_showStudyPhase) {
+          return _buildStudyPhase(context);
         }
 
         if (_completed) {
@@ -154,6 +161,9 @@ class _VocabQuizScreenState extends ConsumerState<VocabQuizScreen> {
     // Shuffle quiz words.
     quizWords.shuffle(_random);
 
+    // Store study words for the study phase.
+    _studyWords = List.of(quizWords);
+
     // Generate a question for each word.
     _questions = quizWords.map((word) {
       // Randomly choose mode: 0 = French -> English, 1 = English -> French.
@@ -211,6 +221,213 @@ class _VocabQuizScreenState extends ConsumerState<VocabQuizScreen> {
       prompt: mode == 0 ? word.french : word.english,
       options: shuffled,
       correctIndex: correctIndex,
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Study Phase
+  // ---------------------------------------------------------------------------
+
+  Widget _buildStudyPhase(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Study Words',
+          style: GoogleFonts.playfairDisplay(
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () => context.pop(),
+          icon: const Icon(Icons.close_rounded),
+        ),
+      ),
+      body: SafeArea(
+        child: ContentConstraint(
+          maxWidth: 800,
+          child: Column(
+            children: [
+              // Header hint
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 8, 24, 12),
+                child: Row(
+                  children: [
+                    Icon(Icons.lightbulb_outline_rounded,
+                        size: 18, color: AppColors.gold),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Review these ${_studyWords.length} words before the quiz',
+                        style: GoogleFonts.inter(
+                          fontSize: 13,
+                          color: context.textSecondary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // Word list
+              Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  itemCount: _studyWords.length,
+                  itemBuilder: (context, index) {
+                    final word = _studyWords[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: FrenchCard(
+                        margin: EdgeInsets.zero,
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // French word + speaker
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    word.french,
+                                    style: GoogleFonts.playfairDisplay(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w700,
+                                      color: context.textPrimary,
+                                    ),
+                                  ),
+                                ),
+                                SpeakerButton(
+                                  text: word.french,
+                                  size: 22,
+                                  color: AppColors.gold,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            // Phonetic
+                            Text(
+                              word.phonetic,
+                              style: GoogleFonts.inter(
+                                fontSize: 14,
+                                fontStyle: FontStyle.italic,
+                                color: context.textSecondary,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            // English translation
+                            Text(
+                              word.english,
+                              style: GoogleFonts.inter(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600,
+                                color: context.navyAdaptive,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            // Example
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: context.creamColor,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          word.exampleFr,
+                                          style: GoogleFonts.inter(
+                                            fontSize: 14,
+                                            fontStyle: FontStyle.italic,
+                                            fontWeight: FontWeight.w500,
+                                            color: context.textPrimary,
+                                            height: 1.4,
+                                          ),
+                                        ),
+                                      ),
+                                      SpeakerButton(
+                                        text: word.exampleFr,
+                                        size: 16,
+                                        color: AppColors.gold,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    word.exampleEn,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 13,
+                                      color: context.textSecondary,
+                                      height: 1.4,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ).animate().fadeIn(
+                            delay: (40 * (index < 8 ? index : 8)).ms,
+                            duration: 300.ms,
+                          ),
+                    );
+                  },
+                ),
+              ),
+              // Bottom buttons
+              Container(
+                padding: const EdgeInsets.fromLTRB(24, 12, 24, 16),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? AppColors.darkSurface
+                      : AppColors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.black.withValues(alpha: 0.3)
+                          : AppColors.navy.withValues(alpha: 0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, -2),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        onPressed: () =>
+                            setState(() => _showStudyPhase = false),
+                        icon: const Icon(Icons.quiz_rounded),
+                        label: const Text('Start Quiz'),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      width: double.infinity,
+                      child: TextButton(
+                        onPressed: () =>
+                            setState(() => _showStudyPhase = false),
+                        child: Text(
+                          'Skip to Quiz',
+                          style: GoogleFonts.inter(
+                            fontSize: 14,
+                            color: context.textSecondary,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -840,6 +1057,8 @@ class _VocabQuizScreenState extends ConsumerState<VocabQuizScreen> {
   void _resetQuiz() {
     setState(() {
       _loaded = false;
+      _showStudyPhase = true;
+      _studyWords = [];
       _questions = [];
       _currentIndex = 0;
       _selectedIndex = null;

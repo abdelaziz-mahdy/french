@@ -43,13 +43,14 @@ class _FlashcardScreenState extends ConsumerState<FlashcardScreen> {
   }
 
   bool get _isReviewMode => widget.category == 'review';
+  bool get _isDailyMode => widget.category == 'daily';
 
   /// Builds the study session by selecting due cards first, then new cards,
   /// capped at [_maxSessionSize].
   void _buildSession() {
     final List<VocabularyWord> allWords;
-    if (_isReviewMode) {
-      // Review mode: load all vocabulary and filter to due cards only.
+    if (_isReviewMode || _isDailyMode) {
+      // Review/daily mode: load all vocabulary.
       final vocabAsync = ref.read(vocabularyProvider);
       allWords = vocabAsync.when(
         data: (words) => words,
@@ -69,6 +70,43 @@ class _FlashcardScreenState extends ConsumerState<FlashcardScreen> {
       final cardId = 'vocab_${word.french}';
       final card = progress.flashcards[cardId] ?? CardProgress.initial(cardId);
       cardEntries.add(_WordCard(word: word, card: card));
+    }
+
+    // Daily mode: only new (unstudied) cards, shuffled across categories.
+    if (_isDailyMode) {
+      final newOnly = cardEntries
+          .where((e) => e.card.repetitions == 0)
+          .toList()
+        ..shuffle();
+
+      // Ensure category variety: max 3 per category.
+      final selected = <_WordCard>[];
+      final catCount = <String, int>{};
+      for (final entry in newOnly) {
+        final cat = entry.word.category;
+        final count = catCount[cat] ?? 0;
+        if (count < 3) {
+          selected.add(entry);
+          catCount[cat] = count + 1;
+        }
+        if (selected.length >= _maxSessionSize) break;
+      }
+
+      // If we have fewer than _maxSessionSize but there are more new words,
+      // do a second pass without the per-category limit.
+      if (selected.length < _maxSessionSize) {
+        final selectedSet = selected.map((e) => e.word.french).toSet();
+        for (final entry in newOnly) {
+          if (selectedSet.contains(entry.word.french)) continue;
+          selected.add(entry);
+          if (selected.length >= _maxSessionSize) break;
+        }
+      }
+
+      setState(() {
+        _sessionWords = selected.map((e) => e.word).toList();
+      });
+      return;
     }
 
     // Separate into due and not-yet-due cards.
@@ -125,7 +163,7 @@ class _FlashcardScreenState extends ConsumerState<FlashcardScreen> {
     final card = progress.flashcards[cardId] ?? CardProgress.initial(cardId);
     final result = SpacedRepetition.review(card, quality);
     final days = result.interval;
-    if (days < 1) return '<1m';
+    if (days < 1) return '<1d';
     if (days == 1) return '1d';
     if (days < 7) return '${days}d';
     if (days < 30) return '${(days / 7).round()}w';
@@ -173,9 +211,9 @@ class _FlashcardScreenState extends ConsumerState<FlashcardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // In review mode, we don't filter by category -- session words are built from all due cards.
+    // In review/daily mode, we don't filter by category -- session words are built from all cards.
     final List<VocabularyWord> allWords;
-    if (_isReviewMode) {
+    if (_isReviewMode || _isDailyMode) {
       final vocabAsync = ref.watch(vocabularyProvider);
       allWords = vocabAsync.when(
         data: (words) => words,
@@ -186,10 +224,10 @@ class _FlashcardScreenState extends ConsumerState<FlashcardScreen> {
       allWords = ref.watch(vocabularyByCategoryProvider(widget.category));
     }
 
-    if (_isReviewMode && _sessionWords.isEmpty && !_sessionComplete) {
+    if ((_isReviewMode || _isDailyMode) && _sessionWords.isEmpty && !_sessionComplete) {
       return _buildEmptyState(context);
     }
-    if (!_isReviewMode && allWords.isEmpty) {
+    if (!_isReviewMode && !_isDailyMode && allWords.isEmpty) {
       return _buildEmptyState(context);
     }
 
@@ -275,7 +313,9 @@ class _FlashcardScreenState extends ConsumerState<FlashcardScreen> {
                 Text(
                   _isReviewMode
                       ? 'Review Due Cards'
-                      : _categoryDisplayName(widget.category),
+                      : _isDailyMode
+                          ? 'Daily Mix'
+                          : _categoryDisplayName(widget.category),
                   style: GoogleFonts.inter(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -497,15 +537,22 @@ class _FlashcardScreenState extends ConsumerState<FlashcardScreen> {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    Text(
-                      word.exampleFr,
-                      style: GoogleFonts.inter(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        fontStyle: FontStyle.italic,
-                        color: context.textPrimary,
-                        height: 1.4,
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            word.exampleFr,
+                            style: GoogleFonts.inter(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              fontStyle: FontStyle.italic,
+                              color: context.textPrimary,
+                              height: 1.4,
+                            ),
+                          ),
+                        ),
+                        SpeakerButton(text: word.exampleFr, size: 18, color: AppColors.gold),
+                      ],
                     ),
                     const SizedBox(height: 6),
                     Text(
@@ -687,7 +734,9 @@ class _FlashcardScreenState extends ConsumerState<FlashcardScreen> {
                   Text(
                     _isReviewMode
                         ? 'Spaced Repetition Review'
-                        : _categoryDisplayName(widget.category),
+                        : _isDailyMode
+                            ? 'Daily Mix'
+                            : _categoryDisplayName(widget.category),
                     style: GoogleFonts.inter(
                       fontSize: 16,
                       color: context.textSecondary,
@@ -873,7 +922,11 @@ class _FlashcardScreenState extends ConsumerState<FlashcardScreen> {
               Icon(Icons.style_rounded, size: 64, color: context.textLight),
               const SizedBox(height: 16),
               Text(
-                _isReviewMode ? 'Nothing to review' : 'No words available',
+                _isReviewMode
+                    ? 'Nothing to review'
+                    : _isDailyMode
+                        ? 'All words learned!'
+                        : 'No words available',
                 style: GoogleFonts.inter(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -884,7 +937,9 @@ class _FlashcardScreenState extends ConsumerState<FlashcardScreen> {
               Text(
                 _isReviewMode
                     ? 'No cards are due for review right now.'
-                    : 'This category has no vocabulary words yet.',
+                    : _isDailyMode
+                        ? 'You have studied all available words. Great job!'
+                        : 'This category has no vocabulary words yet.',
                 style: GoogleFonts.inter(
                   fontSize: 14,
                   color: context.textLight,

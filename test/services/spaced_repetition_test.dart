@@ -60,7 +60,7 @@ void main() {
 
       final result = SpacedRepetition.review(experienced, 2);
 
-      expect(result.interval, 1);
+      expect(result.interval, 0);
       expect(result.repetitions, 0);
     });
 
@@ -72,7 +72,7 @@ void main() {
 
       final result = SpacedRepetition.review(card, 0);
 
-      expect(result.interval, 1);
+      expect(result.interval, 0);
       expect(result.repetitions, 0);
     });
 
@@ -80,6 +80,13 @@ void main() {
       final result = SpacedRepetition.review(freshCard, 3);
 
       expect(result.interval, 1);
+      expect(result.repetitions, 1);
+    });
+
+    test('quality 5 on fresh card sets interval to 4 (easy skip ahead)', () {
+      final result = SpacedRepetition.review(freshCard, 5);
+
+      expect(result.interval, 4);
       expect(result.repetitions, 1);
     });
 
@@ -130,11 +137,18 @@ void main() {
       expect(result.cardId, 'test-card');
     });
 
-    test('nextReviewDate is set to future date', () {
+    test('nextReviewDate is set to future date for correct response', () {
       final result = SpacedRepetition.review(freshCard, 5);
       final today = DateTime.now().toIso8601String().split('T').first;
 
       expect(result.nextReviewDate.compareTo(today), greaterThan(0));
+    });
+
+    test('nextReviewDate is set to today for incorrect response', () {
+      final result = SpacedRepetition.review(freshCard, 0);
+      final today = DateTime.now().toIso8601String().split('T').first;
+
+      expect(result.nextReviewDate, today);
     });
 
     test('repeated perfect reviews grow interval exponentially', () {
@@ -146,8 +160,8 @@ void main() {
         intervals.add(card.interval);
       }
 
-      // Intervals should grow: 1, 6, 16, 42, 110 (approx)
-      expect(intervals[0], 1);
+      // Intervals should grow: 4, 6, 16, 42, 110 (approx)
+      expect(intervals[0], 4);
       expect(intervals[1], 6);
       expect(intervals[2], greaterThan(10));
       expect(intervals[3], greaterThan(intervals[2]));

@@ -17,6 +17,7 @@ import '../../providers/theme_provider.dart';
 import '../../core/constants/responsive.dart';
 import '../../widgets/french_card.dart';
 import '../../widgets/error_view.dart';
+import '../../widgets/update_dialog.dart';
 
 class LessonsScreen extends ConsumerStatefulWidget {
   const LessonsScreen({super.key});
@@ -27,6 +28,17 @@ class LessonsScreen extends ConsumerStatefulWidget {
 
 class _LessonsScreenState extends ConsumerState<LessonsScreen> {
   bool _todayExpanded = true;
+
+  @override
+  void initState() {
+    super.initState();
+    // Check for updates after first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        UpdateDialog.showIfAvailable(context);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -286,10 +298,9 @@ class _TodaySection extends ConsumerWidget {
       }
     }
 
-    // 4) Learn new words: find a category with unstudied words
+    // 4) Learn new words: collect unstudied words across ALL categories
     final vocabAsync = ref.watch(vocabularyProvider);
     String? learnCategory;
-    String? learnCategoryLabel;
     int newWordCount = 0;
     bool allWordsLearned = false;
 
@@ -305,11 +316,10 @@ class _TodaySection extends ConsumerWidget {
           return card == null || card.repetitions == 0;
         }).length;
         totalUnstudied += unstudied;
-        if (unstudied > 0 && learnCategory == null) {
-          learnCategory = entry.key;
-          learnCategoryLabel = _formatCategoryLabel(entry.key);
-          newWordCount = unstudied;
-        }
+      }
+      if (totalUnstudied > 0) {
+        learnCategory = 'daily';
+        newWordCount = totalUnstudied;
       }
       allWordsLearned = totalUnstudied == 0 && value.isNotEmpty;
     }
@@ -391,11 +401,11 @@ class _TodaySection extends ConsumerWidget {
                           iconColor: AppColors.gold,
                           title: 'Learn Words',
                           subtitle: learnCategory != null
-                              ? '$newWordCount new \u2022 $learnCategoryLabel'
+                              ? '${newWordCount > 15 ? '15+' : newWordCount} new words \u2022 mixed'
                               : 'All learned!',
                           isDone: allWordsLearned,
                           onTap: learnCategory != null
-                              ? () => context.push('/words/$learnCategory')
+                              ? () => context.push('/words/daily')
                               : null,
                         ),
                       ),
@@ -457,14 +467,6 @@ class _TodaySection extends ConsumerWidget {
         ],
       ),
     );
-  }
-
-  String _formatCategoryLabel(String key) {
-    return key
-        .split('_')
-        .map((w) =>
-            w.isNotEmpty ? '${w[0].toUpperCase()}${w.substring(1)}' : '')
-        .join(' ');
   }
 
   String _getStreakMessage(int streak, bool studiedToday) {

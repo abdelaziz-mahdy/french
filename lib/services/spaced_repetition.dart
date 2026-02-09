@@ -25,7 +25,12 @@ class SpacedRepetition {
     if (quality >= 3) {
       // Correct response
       if (card.repetitions == 0) {
-        newInterval = 1;
+        // Differentiate first-review intervals by quality
+        if (quality == 5) {
+          newInterval = 4; // Easy: skip ahead
+        } else {
+          newInterval = 1; // Good/Hard: review tomorrow
+        }
       } else if (card.repetitions == 1) {
         newInterval = 6;
       } else {
@@ -33,8 +38,8 @@ class SpacedRepetition {
       }
       newRepetitions = card.repetitions + 1;
     } else {
-      // Incorrect response - reset
-      newInterval = 1;
+      // Incorrect response - review again today
+      newInterval = 0;
       newRepetitions = 0;
     }
 
